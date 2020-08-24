@@ -1,10 +1,242 @@
+{% include 'base.html' %}
+{% block content %}
+{% endblock %}
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>PROFILE</title>
+    <title>Save your favorites</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+          crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+
 </head>
 <body>
+<br>
+<h1 class="main_heading"> {{ current_user.first_name }} {{ current_user.last_name }}'s orders </h1>
 
+        <div class="form_div">
+        <form method="GET">
+            {{my_filter.form}}
+            <button type="submit" id="submit" style="position: relative">Search</button>
+        </form>
+        </div>
+    <br>
+ <div id="res-container">
+		<div class="card card-body">
+
+			<table class="table table-sm">
+				<tr>
+                    <th>Status</th>
+					<th>Product</th>
+					<th>Order type </th>
+					<th>Total Price</th>
+                    <th>Currency</th>
+                    <th>Edit</th>
+					<th>Cancel</th>
+                    <th>Pdf document</th>
+				</tr>
+                {% for ord in orders %}
+                    <tr>
+                        <td>{{ ord.status }}</td>
+					    <td>{{ ord.product }}</td>
+					    <td>{{ ord.order_type }} </td>
+					    <td id="total_price_{{ ord.id }}">{{ ord.price_of_order }}</td>
+                        <td>
+                            <select id="currencies_{{ ord.id }}" name="currencies" class="form-control">
+                                    <option value={{ values.0 }}>{{ currencies.0}}</option>
+                                    <option value={{ values.1 }}>{{ currencies.1}}</option>
+                                    <option value={{ values.2 }}>{{ currencies.2}}</option>
+                            </select>
+                        </td>
+                        {% block javascript %}
+                        <script>
+                            $(document).ready(function () {
+                            $("#currencies_".concat({{ord.id}})).change(function(){
+                                var coef = parseFloat($("#currencies_".concat({{ ord.id }})).val());
+                                var new_price = coef * parseFloat({{ ord.price_of_order }});
+                                $("#total_price_".concat({{ ord.id }})).html(new_price.toFixed(2));
+                            });
+                            });
+                        </script>
+                    {% endblock %}
+                        <td><a class = "btn btn-sm btn-info" href="#">Edit</a></td>
+					    <td><a class = "btn btn-sm btn-info" href="#">Delete</a></td>
+                        <td><a class = "btn btn-sm btn-outline-dark pdf" href="#">Get pdf</a></td>
+				    </tr>
+
+                {% endfor %}
+			</table>
+
+		</div>
+	</div>
+<hr>
+{#   <h1 class="main_heading"> Make your own wish list</h1>#}
+{#<div class="container">#}
+{##}
+{#		<div id="task-container">#}
+{#			<div id="form-wrapper">#}
+{#				<form id="form">#}
+{#					<div class="flex-wrapper">#}
+{#						<div style="flex: 6">#}
+{#							<input id="title" class="form-control" type="text" name="title" placeholder="Add product to you wish">#}
+{#						</div>#}
+{#						<div style="flex: 1">#}
+{#							<input id="submit" class="btn" type="submit">#}
+{#						</div>#}
+{#					</div>#}
+{#				</form>#}
+{#			</div>#}
+{##}
+{#			<div id="list-wrapper">#}
+{#            </div>#}
+{#		</div>#}
+{##}
+{#	</div>#}
+   <footer>
+       © 2020 Copyright: Pandora.com
+    </footer>
+
+{#    <script type="text/javascript">#}
+{#        function getCookie(name) {#}
+{#            var cookieValue = null;#}
+{#            if (document.cookie && document.cookie !== '') {#}
+{#                var cookies = document.cookie.split(';');#}
+{#                for (var i = 0; i < cookies.length; i++) {#}
+{#                    var cookie = cookies[i].trim();#}
+{#                    if (cookie.substring(0, name.length + 1) === (name + '=')) {#}
+{#                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));#}
+{#                        break;#}
+{#                    }#}
+{#                }#}
+{#            }#}
+{#            return cookieValue;#}
+{#        }#}
+{##}
+{#        var csrftoken = getCookie('csrftoken');#}
+{#        var activeItem = null#}
+{#        buildList()#}
+{##}
+{#        function buildList() {#}
+{#            var wrapper = document.getElementById('list-wrapper')#}
+{#            wrapper.innerHTML = ''#}
+{#            var url = 'http://127.0.0.1:8000/api/wish-list/'#}
+{#            fetch(url)#}
+{#            .then((resp) => resp.json())#}
+{#            .then(function (data) {#}
+{#                console.log('Data:', data)#}
+{#                var list = data#}
+{#                for (var i in list){#}
+{#                    var name = `<span class = "title">${list[i].wish_name}</span>`#}
+{#                    if(list[i].completed){#}
+{#                        name = `<strike class = "title">${list[i].wish_name}</strike>`#}
+{#                    }#}
+{#                var item = `#}
+{#                    <div id = "data-row-${i}" class = "task-wrapper flex-wrapper">#}
+{#                        <div style="flex:7">#}
+{#                            ${name}#}
+{#                        </div>#}
+{#                        <div style="flex:1">#}
+{#                            <button class = "btn btn-sm btn-outline-info edit">Edit</button>#}
+{#                        </div>#}
+{#                        <div style="flex:1">#}
+{#                            <button class = "btn btn-sm btn-outline-dark delete">-</button>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                `#}
+{#                wrapper.innerHTML += item#}
+{##}
+{#            }#}
+{#               for (var i in list){#}
+{#                    var editBtn = document.getElementsByClassName('edit')[i]#}
+{#                    var deleteBtn = document.getElementsByClassName('delete')[i]#}
+{#                    var strikeBtn = document.getElementsByClassName('title')[i]#}
+{##}
+{#                    editBtn.addEventListener('click',(function (item) {#}
+{#                        return function () {#}
+{#                            editItem(item)#}
+{#                        }#}
+{#                })(list[i]))#}
+{#                   deleteBtn.addEventListener('click',(function(item){#}
+{#                       return function () {#}
+{#                            deleteItem(item)#}
+{#                       }#}
+{#                   })(list[i]))#}
+{#                   strikeBtn.addEventListener('click',(function(item){#}
+{#                       return function () {#}
+{#                            strikeUnstrike(item)#}
+{#                       }#}
+{#                   })(list[i]))#}
+{#               }#}
+{##}
+{#            })#}
+{##}
+{##}
+{#        }#}
+{##}
+{#        var form = document.getElementById('form-wrapper')#}
+{#        form.addEventListener('submit', function(e){#}
+{#            e.preventDefault()#}
+{#            console.log('Form submitted')#}
+{#            var url = 'http://127.0.0.1:8000/api/wish-create/'#}
+{#            if(activeItem != null){#}
+{#                url = `http://127.0.0.1:8000/api/wish-update/${activeItem.id}/`#}
+{#                activeItem = null#}
+{#            }#}
+{#            var wish_name = document.getElementById('title').value#}
+{#            fetch(url, {#}
+{#                method: 'POST',#}
+{#                headers:{#}
+{#                    'Content-type':'application/json',#}
+{#                    'X-CSRFToken': csrftoken,#}
+{#                },#}
+{#                body: JSON.stringify({'wish_name':wish_name})#}
+{#            }#}
+{#            ).then(function(response){#}
+{#                buildList()#}
+{#                document.getElementById('form').reset()#}
+{#            })#}
+{#        })#}
+{##}
+{#        function editItem(item){#}
+{#            console.log('Item edited: ', item)#}
+{#            activeItem = item#}
+{#            document.getElementById('title').value = activeItem.wish_name#}
+{#        }#}
+{##}
+{#        function deleteItem(item){#}
+{#            console.log('Item deleted')#}
+{#            fetch(`http://127.0.0.1:8000/api/wish-delete/${item.id}/`, {#}
+{#                method : 'DELETE',#}
+{#                headers: {#}
+{#                    'Content-type':'application/json',#}
+{#                    'X-CSRFToken': csrftoken,#}
+{#                }#}
+{#            }).then((response) => {#}
+{#                buildList()#}
+{#            })#}
+{#        }#}
+{##}
+{#        function strikeUnstrike(item){#}
+{#            console.log('Strike clicked')#}
+{##}
+{#            item.completed = !item.completed#}
+{#            fetch(`http://127.0.0.1:8000/api/wish-update/${item.id}/`, {#}
+{#                method : 'POST',#}
+{#                headers: {#}
+{#                    'Content-type':'application/json',#}
+{#                    'X-CSRFToken': csrftoken,#}
+{#                },#}
+{#                body: JSON.stringify({'wish_name':item.wish_name,'completed':item.completed})#}
+{#            }).then((response) => {#}
+{#                buildList()#}
+{#            })#}
+{#        }#}
+{##}
+{#    </script>#}
 </body>
 </html>
+

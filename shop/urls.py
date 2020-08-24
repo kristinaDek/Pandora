@@ -12,10 +12,13 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf import settings
+
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import RedirectView
-from .views import login_user, homepage, register, logout_user, user_profile
+from .views import login_user, homepage, register, logout_user, user_profile,products
 from knox import views as knox_views
 from .views import LoginAPI
 from django.urls import path
@@ -31,9 +34,10 @@ urlpatterns = [
     # path('register/', register, name='register'),
     path('logout/', logout_user, name='logout'),
     path('profile/', user_profile, name='profile'),
+    path('products/', products, name='products'),
     # path('api/login/', LoginAPI.as_view(), name='login'),
     # path('api/logout/', knox_views.LogoutView.as_view(), name='logout'),
     # path('api/logoutall/', knox_views.LogoutAllView.as_view(), name='logoutall'),
     # path('api/register/', RegisterAPI.as_view(), name='register'),
 ]
-
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

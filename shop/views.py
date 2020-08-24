@@ -2,7 +2,7 @@ from django.contrib.auth import authenticate
 from django.contrib import messages
 from django.shortcuts import render, redirect
 import urllib
-
+from django.db.models import QuerySet
 import requests, json
 from django.contrib import messages
 from django.contrib.auth import authenticate, logout, login
@@ -34,6 +34,8 @@ from django.contrib.auth import login
 from .forms import UserRegistrationForm
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 from knox.views import LoginView as KnoxLoginView
+from .models import ProductImageModel,ProductModel,CheckModel,OrderModel
+from .filters import ProductFilter,CheckFilter,OrderFilter
 
 # Register API
 class RegisterAPI(generics.GenericAPIView):
@@ -121,31 +123,32 @@ def logout_user(request):
 @login_required(login_url='login')
 def user_profile(request):
     # WEB SERVIS ZA KONVERZIJU VALUTA
-    # url = "https://api.exchangeratesapi.io/latest?symbols=USD,GBP"
-    # response = requests.get(url)
-    # data = response.text
-    # parsed = json.loads(data)
-    #
-    # base = parsed['base']
-    # currencies = [base] + list(parsed['rates'])
-    # curr_vals = [1] + list(parsed["rates"].values())
-    #
-    # reservations = ReservationModel.objects.filter(user=request.user)
-    # my_filter = ReservationFilter(request.GET, queryset=reservations)
-    # reservations = my_filter.qs
-    # for res in reservations:
-    #     hotel = AccommodationModel.objects.get(id=res.accommodation.id).hotel
-    #     res.hotel = HotelModel.objects.get(id=hotel.id)
-    #     if res.start_date > date.today():
-    #         res.status = f'Pending - start date: {res.start_date.strftime("%d.%m.%Y.")}'
-    #     elif res.end_date < date.today():
-    #         res.status = f'Checked out {res.end_date.strftime("%d.%m.%Y.")}'
-    #     else:
-    #         res.status = f'Checked in {res.start_date.strftime("%d.%m.%Y.")}'
-    # current_user = request.user
-    # context = {"reservations": reservations, "values": curr_vals, "currencies": currencies,
-    #            "current_user": current_user, "my_filter": my_filter}
-    context = {}
+    url = "https://api.exchangeratesapi.io/latest?symbols=USD,GBP"
+    response = requests.get(url)
+    data = response.text
+    parsed = json.loads(data)
+
+    base = parsed['base']
+    currencies = [base] + list(parsed['rates'])
+    curr_vals = [1] + list(parsed["rates"].values())
+
+    orders = OrderModel.objects.filter(user=request.user)
+    my_filter = OrderFilter(request.GET, queryset=orders)
+    orders = my_filter.qs
+    for res in orders:
+        product = OrderModel.objects.get(id=res.id).product
+        res.product = ProductModel.objects.get(id=product.id)
+        if res.date_of_order > date.today():
+            res.status = f'Pending - start date: {res.date_of_order.strftime("%d.%m.%Y.")}'
+        elif res.date_of_order < date.today():
+            res.status = f'Checked out {res.date_of_order.strftime("%d.%m.%Y.")}'
+        else:
+            res.status = f'Checked in {res.date_of_order.strftime("%d.%m.%Y.")}'
+    current_user = request.user
+    context = {"orders": orders, "values": curr_vals, "currencies": currencies,
+               "current_user": current_user,"my_filter": my_filter}
+    # context = {}
+    # ,"my_filter": my_filter
     return render(request, 'profile.html', context)
 
 def homepage(request):
@@ -194,3 +197,15 @@ def homepage(request):
 
     # context = {}
     return render(request, 'home.html')
+
+def products(request):
+    products = ProductModel.objects.all()
+    my_filter = ProductFilter(request.GET, queryset=products)
+    products = my_filter.qs
+
+    paginator = Paginator(products, 3)
+    page = request.GET.get('page')
+    products = paginator.get_page(page)
+
+    context = {"products": products, "my_filter": my_filter}
+    return render(request, 'products.html', context)
