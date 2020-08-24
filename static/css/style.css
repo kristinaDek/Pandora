@@ -41,6 +41,11 @@
     box-shadow: #787474;
     outline: 0;
 }
+#frmReg{
+    margin-left: 5em;
+    margin-right: 5em;
+
+}
 
 #messages{
     background-color: grey;

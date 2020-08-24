@@ -18,14 +18,47 @@ from django.views import View
 from xhtml2pdf import pisa
 
 
-from .forms import CreateUserForm
+# from .forms import CreateUserForm
+# from django.contrib.auth.forms import UserCreationForm
 
 
 from datetime import date
 
 # Create your views here.
 from django.views.decorators.csrf import csrf_protect
+from rest_framework import generics, permissions
+from rest_framework.response import Response
+from knox.models import AuthToken
+from .serializer import UserSerializer, RegisterSerializer
+from django.contrib.auth import login
+from .forms import UserRegistrationForm
+from rest_framework.authtoken.serializers import AuthTokenSerializer
+from knox.views import LoginView as KnoxLoginView
 
+# Register API
+class RegisterAPI(generics.GenericAPIView):
+    serializer_class = RegisterSerializer
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.save()
+        return Response({
+        "user": UserSerializer(user, context=self.get_serializer_context()).data,
+        "token": AuthToken.objects.create(user)[1]
+        })
+
+
+
+class LoginAPI(KnoxLoginView):
+    permission_classes = (permissions.AllowAny,)
+
+    def post(self, request, format=None):
+        serializer = AuthTokenSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data['user']
+        login(request, user)
+        return super(LoginAPI, self).post(request, format=None)
 
 @csrf_protect
 def login_user(request):
@@ -41,32 +74,43 @@ def login_user(request):
         else:
             messages.info(request, "Username or password is incorrect.")
     return render(request, 'login.html')
-
-
 @csrf_protect
 def register(request):
-    if request.user.is_authenticated:
-        return redirect('homepage')
+    if request.method == 'POST':
+        form = UserRegistrationForm(request.POST)
+        if form.is_valid():
+           form.save()
+           username = form.cleaned_data.get('username')
+           messages.success(request,f"Account created for {username}")
+           return redirect('login')
     else:
-        form = CreateUserForm()
-        if request.method == 'POST':
-            form = CreateUserForm(request.POST)
-            if form.is_valid():
-                form.save()
-                user = form.cleaned_data.get("username")
-                messages.success(request, f"Account was created for {user} ")
-                return redirect('login')
-            else:
-                pass1 = form.cleaned_data.get("password1")
-                pass2 = form.cleaned_data.get("password2")
-                if pass1 != pass2:
-                    messages.info(request, "The two password fields didn’t match.")
-                else:
-                    messages.info(request, "Username is taken.")
+        form = UserRegistrationForm()
+    context = {'form': form}
+    return render(request, 'register.html', context)
 
-        context = {'form': form}
-        return render(request, 'register.html', context)
-
+# @csrf_protect
+# def register(request):
+#     if request.user.is_authenticated:
+#         return redirect('homepage')
+#     else:
+#         form = CreateUserForm()
+#         if request.method == 'POST':
+#             form = CreateUserForm(request.POST)
+#             if form.is_valid():
+#                 form.save()
+#                 user = form.cleaned_data.get("username")
+#                 messages.success(request, f"Account was created for {user} ")
+#                 return redirect('login')
+#             else:
+#                 pass1 = form.cleaned_data.get("password")
+#                 # pass2 = form.cleaned_data.get("password2")
+#                 if pass1 is None:
+#                     messages.info(request, "The password is not valid.")
+#                 else:
+#                     messages.info(request, "Username is taken.")
+#
+#         context = {'form': form}
+#         return render(request, 'register.html', context)
 
 @login_required(login_url='login')
 def logout_user(request):

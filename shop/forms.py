@@ -1,18 +1,28 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from django import forms
 from django.forms import ModelForm, DateField, DateInput
-from pylint.checkers.typecheck import _
+# from pylint.checkers.typecheck import _
 
 # from .models import ReservationModel
 from datetime import date
 
 TIME_FORMAT = '%d.%m.%Y'
 
+#
+# class CreateUserForm(UserCreationForm):
+#     class Meta:
+#         model = User
+#         fields = ['first_name', 'last_name', 'username', 'email', 'password']
+#         # fields = ['first_name', 'last_name', 'username', 'email', 'password1', 'password2']
 
-class CreateUserForm(UserCreationForm):
+
+class UserRegistrationForm(UserCreationForm):
+    email = forms.EmailField()
     class Meta:
         model = User
         fields = ['first_name', 'last_name', 'username', 'email', 'password1', 'password2']
+        # fields = ['first_name', 'last_name', 'username', 'email', 'password1', 'password2']
 
 
 # class CreateReservationForm(ModelForm):

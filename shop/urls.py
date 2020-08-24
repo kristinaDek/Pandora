@@ -16,6 +16,11 @@ from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import RedirectView
 from .views import login_user, homepage, register, logout_user, user_profile
+from knox import views as knox_views
+from .views import LoginAPI
+from django.urls import path
+from .views import RegisterAPI
+from django.urls import path
 
 urlpatterns = [
 
@@ -23,6 +28,12 @@ urlpatterns = [
     path('', RedirectView.as_view(url='homepage/')),
     path('homepage/', homepage, name='homepage'),
     path('register/', register, name='register'),
+    # path('register/', register, name='register'),
     path('logout/', logout_user, name='logout'),
     path('profile/', user_profile, name='profile'),
+    # path('api/login/', LoginAPI.as_view(), name='login'),
+    # path('api/logout/', knox_views.LogoutView.as_view(), name='logout'),
+    # path('api/logoutall/', knox_views.LogoutAllView.as_view(), name='logoutall'),
+    # path('api/register/', RegisterAPI.as_view(), name='register'),
 ]
+
