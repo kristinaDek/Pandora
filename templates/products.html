@@ -1,48 +1,69 @@
 {% include 'base.html' %}
 {% load static %}
 {% block content %}
+    <p style="text-align: center;margin-top: 1em;margin-bottom: -3em"><img src="{% static 'images/malirozi.png' %}" ></p>
+    <a href="{% url 'products' %}"><h1 id="titl1" style="margin-bottom: 1em; color: #ffb3cb"> Pandora products</h1></a>
 
-    <p class="hotel_heading"> Pandora products</p>
-    <form method="GET" class="res_form">
+    <form method="GET" class="res_form" style="margin-left: 10em;">
     {{my_filter.form}}
-    <button type="submit" id="submit" style="position: relative">Search</button>
+    <button type="submit" id="submit" class="btn search_btn" style="position: relative; ">Search</button>
     </form>
     <br>
+    <div class="row tm-row" id="produ">
+        {% for product in products %}
 
-    {% for product in products %}
 
-    <div class="hotel_card">
-    <div class="card mb-3" style="max-width: 1240px; height: 310px">
-      <div class="row no-gutters">
-        <div class="col-md-4">
-          <img src="{{ product.product_image.url }}" class="card-img" alt="Product image" style="height: 250px; width: 400px;">
-        </div>
-        <div class="col-md-8">
-          <div class="card-body">
-            <h5 class="card-title"><a href="#" style="padding-left: 5%;padding-top: 0%;padding-bottom: 0%"> {{ product.product_name }} </a></h5>
-            <p class="card-text" style="padding-left: 5%;padding-top: 0%;padding-bottom: 0%;font-size: 40px;" >   {{ product.product_price}} <img src="{% static 'images/malinovcic.png' %}">, {{ product.product_type }} </p>
-            <p class="card-text" style="padding-left: 5%;padding-top: 0%;padding-bottom: 0%" ><small class="text-muted"> {{ product.materials }} </small></p>
-          </div>
-        </div>
-      </div>
-    </div>
-    </div>
+                <article class="col-12 col-md-6 tm-post">
+                    <hr class="tm-hr-primary">
+                    <a href="#" class="effect-lily tm-post-link tm-pt-60">
+                        <div class="tm-post-link-inner">
+                            <img src="{{ product.product_image.url }}" alt="Product image" class="img-fluid">
+                        </div>
+                        <span class="position-absolute tm-new-badge" style="text-align: center">{{ product.product_price }}€</span>
+                        <h2 class="tm-pt-30 tm-color-primary tm-post-title" style="text-align: center">{{ product.product_name }}</h2>
+                    </a>
+                    <p class="tm-pt-30" style="text-align: center">
+                        {{ product.materials }}
+                    </p>
+                    <div class="d-flex justify-content-between tm-pt-45">
+                        <span class="tm-color-primary" style="text-align: center">{{ product.product_type }}</span>
+{#                        <span class="tm-color-primary">June 24, 2020</span>#}
+                    </div>
+                    <hr>
+                </article>
 
     {% endfor %}
-
+    </div>
+<footer style="position: relative">
     <div class="pag_div">
     <div class="paginator">
     {% for num in products.paginator.page_range %}
         {% if products.number == num %}
             <span class="pagination-number pagination-current">{{ num }}</span>
-        {% elif num > products.number|add:'-2' and num < products.number|add:'2' %}
+        {% elif num > products.number|add:'-3' and num < products.number|add:'3' %}
             <a class="pagination-number" href="?page={{ num }}">{{ num }}</a>
         {% endif %}
     {% endfor %}
     </div>
     </div>
-    <footer style="background: #3D405B;height: 40px; text-align: center; color: black; padding-top: 5px;position: relative">
-       © 2020 Copyright: Pandora.com
-    </footer>
+</footer>
 {% endblock %}
 
+
+
+{#    <div class="hotel_card">#}
+{#    <div class="card mb-3" style="max-width: 1240px; height: 310px">#}
+{#      <div class="row no-gutters">#}
+{#        <div class="col-md-4">#}
+{#          <img src="{{ product.product_image.url }}" class="card-img" alt="Product image" style="height: 250px; width: 400px;">#}
+{#        </div>#}
+{#        <div class="col-md-8">#}
+{#          <div class="card-body">#}
+{#            <h5 class="card-title"><a href="#" style="padding-left: 5%;padding-top: 0%;padding-bottom: 0%"> {{ product.product_name }} </a></h5>#}
+{#            <p class="card-text" style="padding-left: 5%;padding-top: 0%;padding-bottom: 0%;font-size: 40px;" >   {{ product.product_price}} <img src="{% static 'images/malinovcic.png' %}">, {{ product.product_type }} </p>#}
+{#            <p class="card-text" style="padding-left: 5%;padding-top: 0%;padding-bottom: 0%" ><small class="text-muted"> {{ product.materials }} </small></p>#}
+{#          </div>#}
+{#        </div>#}
+{#      </div>#}
+{#    </div>#}
+{#    </div>#}

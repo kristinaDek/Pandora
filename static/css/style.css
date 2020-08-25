@@ -53,3 +53,133 @@
     padding: 10px;
     margin-top: 10px;
 }
+
+/*products page*/
+.tm-row {
+    max-width: 980px;
+    justify-content: space-between;
+}
+hr.tm-hr-primary { border-top: 5px solid #ffb3cb; }
+.tm-post-link:hover .tm-post-title { color: #ffb3cb; }
+.tm-post-title {
+    font-size: 1.7rem;
+    transition: all 0.3s ease;
+}
+
+.tm-post { margin-bottom: 75px; }
+.effect-lily img {
+	max-width: none;
+	width: -webkit-calc(100% + 50px);
+	width: calc(100% + 50px);
+	opacity: 0.7;
+	-webkit-transition: opacity 0.35s, -webkit-transform 0.35s;
+	transition: opacity 0.35s, transform 0.35s;
+	-webkit-transform: translate3d(-40px,0, 0);
+	transform: translate3d(-40px,0,0);
+}
+
+.effect-lily:hover img { opacity: 1; }
+
+.effect-lily:hover img {
+    -webkit-transform: translate3d(0,0,0);
+	transform: translate3d(0,0,0);
+}
+.tm-post-link-inner {
+    overflow: hidden;
+    background: #ffb3cb;
+}
+.tm-new-badge {
+    top: 25px;
+    right: -10px;
+    background-color: #ffb3cb;
+    color: white;
+    padding: 5px 20px;
+}
+
+.tm-pt-20 { padding-top: 20px; }
+.tm-pt-30 { padding-top: 30px; }
+.tm-pt-45 { padding-top: 45px; }
+.tm-pt-60 { padding-top: 60px; }
+.tm-mb-40 { margin-bottom: 40px; }
+.tm-mb-45 { margin-bottom: 45px; }
+.tm-mb-55 { margin-bottom: 55px; }
+.tm-mb-60 { margin-bottom: 60px; }
+.tm-mb-65 { margin-bottom: 65px; }
+.tm-mb-75 { margin-bottom: 75px; }
+.tm-mb-80 { margin-bottom: 80px; }
+.tm-mb-120 { margin-bottom: 120px; }
+.tm-mt-40 { margin-top: 40px; }
+.tm-mt-100 { margin-top: 100px; }
+.tm-mr-20 { margin-right: 20px; }
+.tm-color-primary, span.tm-color-primary { color: #ffb3cb; }
+a.tm-color-gray, .tm-color-gray { color: #999; }
+a.tm-color-gray:hover { color: #ffb3cb; }
+.tm-bg-gray { background-color: #F3F4F5; }
+button:focus { outline: none; }
+a:hover {
+    text-decoration: none;
+    color: #048c8c;
+}
+
+a:hover figcaption { color: #ffb3cb; }
+.img-thumbnail { max-width: none; }
+.tm-about-pad { padding: 40px 35px; }
+.tm-person { max-width: 430px; }
+.tm-line-height-short { line-height: 1.8; }
+
+#produ{
+    margin-left: 15em;
+}
+/*search*/
+.search_btn {
+    /*width: 100%;*/
+
+    background: #ffb3cb;
+    color: white;
+}
+.search_btn:focus {
+    box-shadow: #787474;
+    outline: 0;
+}
+
+/*paginator*/
+.pag_div{
+    margin-left: 50%;
+    margin-bottom: 5%;
+    margin-top: 5%;
+}
+
+.pagination{
+    text-align: center;
+    margin-top: 1em;
+}
+
+.pagination a {
+    text-decoration: none;
+}
+
+.pagination-number {
+    padding: 0.5em 0.8em;
+    border-radius: 2px;
+    color: #fff;
+    background-color: #ffccdc;
+}
+
+.pagination-number:hover,
+.pagination-current {
+    background-color: #ffb3cb;
+}
+
+.pagination-action {
+    margin: 0 0.1em;
+    display: inline-block;
+    padding: 0.5em 0.5em;
+    color: #B9B9B9;
+    font-size: 1.3em;
+}
+
+.pagination-action:hover,
+.pagination-previous,
+.pagination-next {
+    color: #ffb3cb;
+}

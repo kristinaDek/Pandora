@@ -203,7 +203,7 @@ def products(request):
     my_filter = ProductFilter(request.GET, queryset=products)
     products = my_filter.qs
 
-    paginator = Paginator(products, 3)
+    paginator = Paginator(products, 4)
     page = request.GET.get('page')
     products = paginator.get_page(page)
 
