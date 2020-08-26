@@ -22,7 +22,7 @@ from xhtml2pdf import pisa
 # from django.contrib.auth.forms import UserCreationForm
 
 
-from datetime import date
+from datetime import date, timedelta
 
 # Create your views here.
 from django.views.decorators.csrf import csrf_protect
@@ -34,8 +34,8 @@ from django.contrib.auth import login
 from .forms import UserRegistrationForm
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 from knox.views import LoginView as KnoxLoginView
-from .models import ProductImageModel,ProductModel,CheckModel,OrderModel
-from .filters import ProductFilter,CheckFilter,OrderFilter
+from .models import ProductImageModel,ProductModel,OrderModel, AvailabilityModel
+from .filters import ProductFilter,OrderFilter,AvailabilityFilter
 
 # Register API
 class RegisterAPI(generics.GenericAPIView):
@@ -138,12 +138,16 @@ def user_profile(request):
     for res in orders:
         product = OrderModel.objects.get(id=res.id).product
         res.product = ProductModel.objects.get(id=product.id)
-        if res.date_of_order > date.today():
-            res.status = f'Pending - start date: {res.date_of_order.strftime("%d.%m.%Y.")}'
+        res.price_of_order = res.amount * product.product_price
+        total_days = res.date_of_order + timedelta(days=7)
+        if res.date_of_order == date.today():
+            res.status = f'Pending - order date: {res.date_of_order.strftime("%d.%m.%Y.")}'
+        elif res.date_of_order >= total_days:
+            res.status = f'Delivered {res.date_of_order.strftime("%d.%m.%Y.")}'
         elif res.date_of_order < date.today():
-            res.status = f'Checked out {res.date_of_order.strftime("%d.%m.%Y.")}'
+            res.status = f'Sent {res.date_of_order.strftime("%d.%m.%Y.")}'
         else:
-            res.status = f'Checked in {res.date_of_order.strftime("%d.%m.%Y.")}'
+            res.status = f'Unknown {res.date_of_order.strftime("%d.%m.%Y.")}'
     current_user = request.user
     context = {"orders": orders, "values": curr_vals, "currencies": currencies,
                "current_user": current_user,"my_filter": my_filter}
@@ -209,3 +213,48 @@ def products(request):
 
     context = {"products": products, "my_filter": my_filter}
     return render(request, 'products.html', context)
+
+def product_page(request, pk):
+    product = ProductModel.objects.get(id=pk)
+    images = ProductImageModel.objects.filter(product=pk)
+    stores = AvailabilityModel.objects.filter(product=pk)
+    my_filter = AvailabilityFilter(request.GET, queryset=stores)
+    stores = my_filter.qs
+
+    # WEB SERVIS ZA KONVERZIJU VALUTA
+    url = "https://api.exchangeratesapi.io/latest?symbols=USD,GBP"
+    response = requests.get(url)
+    data = response.text
+    parsed = json.loads(data)
+
+    base = parsed['base']
+    currencies = [base] + list(parsed['rates'])
+    curr_vals = [1] + list(parsed["rates"].values())
+
+    context = {"product": product, "images": images, "stores": stores, "currencies": currencies, "values": curr_vals,
+               "my_filter": my_filter}
+    return render(request, 'product-details.html', context)
+
+def render_to_pdf(template_src, context_dict={}):
+    template = get_template(template_src)
+    html = template.render(context_dict)
+    result = BytesIO()
+    pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
+    if not pdf.err:
+        return HttpResponse(result.getvalue(), content_type='application/pdf')
+    return None
+
+
+@login_required(login_url='login')
+def view_as_pdf(request, pk):
+    current_user = request.user
+    # check = CheckModel.objects.get(id=pk)
+    order = OrderModel.objects.get(id=pk)
+    available = AvailabilityModel.objects.get(id=order.available.id)
+    product = ProductModel.objects.get(id=order.product.id)
+    order.price_of_order = order.amount * product.product_price
+    total_days = order.date_of_order + timedelta(days=7)
+    context = {"user": current_user, "order":order, "available": available, "product": product,
+               "total_days": total_days}
+    pdf = render_to_pdf('pdf-template.html', context)
+    return HttpResponse(pdf, content_type='application/pdf')

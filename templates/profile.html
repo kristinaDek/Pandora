@@ -1,4 +1,5 @@
 {% include 'base.html' %}
+{% load static %}
 {% block content %}
 {% endblock %}
 
@@ -16,12 +17,14 @@
 </head>
 <body>
 <br>
-<h1 class="main_heading"> {{ current_user.first_name }} {{ current_user.last_name }}'s orders </h1>
+<h1 class="main_heading"> <img src="{% static 'images/logo.jpg'%}"> </h1>
+<h1 class="main_heading"style="margin-bottom: 1em"> {{ current_user.first_name }} {{ current_user.last_name }}'s orders </h1>
 
-        <div class="form_div">
+
+        <div class="form_div" style="margin-left: 18em;margin-right: 18em">
         <form method="GET">
             {{my_filter.form}}
-            <button type="submit" id="submit" style="position: relative">Search</button>
+            <button type="submit" id="submit" class="btn search_btn" style="position: relative;color: white;background-color: #048c8c;border-color: white">Search</button>
         </form>
         </div>
     <br>
@@ -32,7 +35,7 @@
 				<tr>
                     <th>Status</th>
 					<th>Product</th>
-					<th>Order type </th>
+					<th>Amount </th>
 					<th>Total Price</th>
                     <th>Currency</th>
                     <th>Edit</th>
@@ -43,7 +46,7 @@
                     <tr>
                         <td>{{ ord.status }}</td>
 					    <td>{{ ord.product }}</td>
-					    <td>{{ ord.order_type }} </td>
+					    <td>{{ ord.amount }} </td>
 					    <td id="total_price_{{ ord.id }}">{{ ord.price_of_order }}</td>
                         <td>
                             <select id="currencies_{{ ord.id }}" name="currencies" class="form-control">
@@ -65,7 +68,7 @@
                     {% endblock %}
                         <td><a class = "btn btn-sm btn-info" href="#">Edit</a></td>
 					    <td><a class = "btn btn-sm btn-info" href="#">Delete</a></td>
-                        <td><a class = "btn btn-sm btn-outline-dark pdf" href="#">Get pdf</a></td>
+                        <td><a class = "btn btn-sm btn-outline-dark pdf" href="{% url 'view_as_pdf' ord.id %}">Get pdf</a></td>
 				    </tr>
 
                 {% endfor %}

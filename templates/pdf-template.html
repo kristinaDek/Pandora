@@ -1,0 +1,102 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<style>
+    @page {
+        size: a4 portrait;
+        @frame header_frame {           /* Static Frame */
+            -pdf-frame-content: header_content;
+            left: 50pt; width: 512pt; top: 50pt; height: 40pt;
+        }
+        @frame content_frame {          /* Content Frame */
+            left: 50pt; width: 512pt; top: 90pt; height: 632pt;
+        }
+        @frame footer_frame {           /* Another static Frame */
+            -pdf-frame-content: footer_content;
+            left: 50pt; width: 512pt; top: 772pt; height: 20pt;
+        }
+    }
+</style>
+
+</head>
+
+<body>
+
+    <div id="header_content">
+        <h1> Order for {{ user.first_name }} {{ user.last_name }} </h1>
+    </div>
+
+    <p> <b> First name: </b> {{ user.first_name }} <br>
+        <b> Last name: </b> {{ user.last_name }} <br>
+        <b> Username: </b> {{ user.username }} <br>
+        <b> User email:</b> {{ user.email }} <br>
+    </p>
+
+   <hr>
+
+    <table>
+    		<tr>
+    			<th><b> Product name</b></th>
+                <th><b> Product price </b></th>
+    			<th><b> Product image </b></th>
+    		</tr>
+    		<tr style="margin-left: 7em">
+    			<td>{{product.product_name}}</td>
+    			<td style="margin-left: 3em">{{product.product_price}}</td>
+                <td>{{product.product_image.url}}</td>
+    		</tr>
+
+    </table>
+
+    <hr>
+
+     <table>
+    		<tr>
+    			<th><b> From store </b></th>
+                <th><b> Online exclusive </b></th>
+
+    		</tr>
+    		<tr style="margin-left: 15em">
+    			<td >{{available.store_name}}</td>
+    			<td>{{available.online_exclusive}}</td>
+
+    		</tr>
+
+    </table>
+
+    <hr>
+     <table>
+    		<tr>
+    			<th><b> Order was made on </b></th>
+                <th><b> Deliver until </b></th>
+                <th><b> Amount </b></th>
+                <th><b> Price </b></th>
+    		</tr>
+    		<tr style="margin-left: 7em">
+    			<td>{{order.date_of_order}}</td>
+                <td>{{total_days}} </td>
+                <td>{{order.amount}} </td>
+                <td>{{order.price_of_order}} </td>
+    		</tr>
+
+    </table>
+    <hr>
+{#    <hr>#}
+{#     <table>#}
+{#    		<tr>#}
+{#    			<th><b> Check was made on </b></th>#}
+{#                <th><b> Price </b></th>#}
+{#    		</tr>#}
+{#    		<tr>#}
+{#    			<td>{{check.check_date}}</td>#}
+{#                <td>{{check.total_price}} </td>#}
+{#    		</tr>#}
+{##}
+{#    </table>#}
+{#    <hr>#}
+    <p><strong>Total: {{ order.price_of_order }} eur. </strong></p>
+    <h1 style="text-align: right"> Thank you for your order!</h1>
+    <h1 style="text-align: right"> PANDORA </h1>
+</body>
+</html>

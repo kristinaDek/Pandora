@@ -1,6 +1,6 @@
 import django_filters
 
-from .models import ProductModel, OrderModel, CheckModel,PRODUCT_CHOICES,ORDER_CHOICES
+from .models import ProductModel, OrderModel,PRODUCT_CHOICES,ORDER_CHOICES,AvailabilityModel
 from django_filters import DateFilter, CharFilter, NumberFilter
 
 
@@ -16,6 +16,13 @@ class ProductFilter(django_filters.FilterSet):
         fields = "__all__"
         exclude = ['product_image']
 
+class AvailabilityFilter(django_filters.FilterSet):
+    store_names = CharFilter(field_name='store_name', lookup_expr='icontains')
+
+    class Meta:
+        model = AvailabilityModel
+        fields = "__all__"
+        exclude = ['product', 'store_name', 'number_of_available_items']
 
 class OrderFilter(django_filters.FilterSet):
     date_of_order_pass = DateFilter(field_name='date_of_order', lookup_expr='gte')
@@ -24,21 +31,20 @@ class OrderFilter(django_filters.FilterSet):
     total_price_2 = NumberFilter(field_name='price_of_order', lookup_expr='lte')
     address = CharFilter(field_name='address', lookup_expr='icontains')
     # order_type = NumberFilter(choices=ORDER_CHOICES)
-    amount_gte = NumberFilter(field_name='amount', lookup_expr='gte')
-    amount_lte = NumberFilter(field_name='amount', lookup_expr='lte')
+
 
     class Meta:
         model = OrderModel
         fields = "__all__"
-        exclude = ['user', 'product']
+        exclude = ['user', 'product','amount','date_of_order','price_of_order']
 
-
-class CheckFilter(django_filters.FilterSet):
-    price_1 = NumberFilter(field_name='total_price', lookup_expr='gte')
-    price_2 = NumberFilter(field_name='total_price', lookup_expr='lte')
-
-    class Meta:
-        model = CheckModel
-        fields = "__all__"
-        exclude = ['user', 'order']
+#
+# class CheckFilter(django_filters.FilterSet):
+#     price_1 = NumberFilter(field_name='total_price', lookup_expr='gte')
+#     price_2 = NumberFilter(field_name='total_price', lookup_expr='lte')
+#
+#     class Meta:
+#         model = CheckModel
+#         fields = "__all__"
+#         exclude = ['user', 'order']
 
