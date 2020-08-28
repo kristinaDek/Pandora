@@ -35,8 +35,22 @@ class OrderFilter(django_filters.FilterSet):
 
     class Meta:
         model = OrderModel
-        fields = "__all__"
-        exclude = ['user', 'product','amount','date_of_order','price_of_order']
+        fields = ['product', 'date_of_order_pass','date_of_order_bef','total_price_1','total_price_2','address']
+        exclude = ['amount','date_of_order','price_of_order']
+
+# class OrderFilter2(django_filters.FilterSet):
+#     date_of_order_pass = DateFilter(field_name='date_of_order', lookup_expr='gte')
+#     date_of_order_bef = DateFilter(field_name='date_of_order', lookup_expr='lte')
+#     total_price_1 = NumberFilter(field_name='price_of_order', lookup_expr='gte')
+#     total_price_2 = NumberFilter(field_name='price_of_order', lookup_expr='lte')
+#     address = CharFilter(field_name='address', lookup_expr='icontains')
+#     # order_type = NumberFilter(choices=ORDER_CHOICES)
+#
+#
+#     class Meta:
+#         model = OrderModel
+#         fields = "__all__"
+#         exclude = ['amount','date_of_order','price_of_order','user','product']
 
 #
 # class CheckFilter(django_filters.FilterSet):

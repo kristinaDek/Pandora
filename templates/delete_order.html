@@ -1,0 +1,43 @@
+{% include 'base.html' %}
+{% load static %}
+{% block content %}
+    <div class="row" style="width: 100%">
+    <div class="col" >
+    <h2  style="margin-left:180px; text-align: left; margin-top: 250px;color: #ffb3cb" id="titl1"> Cancel your order</h2>
+    <p style="margin-left: 70px">{{ message }}</p>
+    <div class="row" style="width: 100%">
+    <form action="{% url "delete_order" order.id %}" method="POST" class="delete_form" style="margin-right: 70px;margin-left: 210px">
+        {% csrf_token %}
+
+        <input class="btn btn-info" type="submit" name="Confirm" id="submit" value="Confirm" style="background-color: #ffb3cb;border-color: #ffb3cb">
+    </form>
+    <form action="{% url "profile" %}" >
+        {% csrf_token %}
+        <input type="submit" class="btn btn-info"  name="Cancel" id="submit" value="Cancel" style="background-color: #ffb3cb;border-color: #ffb3cb">
+    </form>
+    </div>
+    </div>
+     <br>
+    <br>
+        <div class="col" >
+     <article class="col-12 col-md-12 tm-post">
+                    <hr class="tm-hr-primary">
+                    <a href="{% url 'product-details' product.id %}" class="effect-lily tm-post-link tm-pt-60">
+                        <div class="tm-post-link-inner" style="height: 350px">
+                            <img src="{{ product.product_image.url }}" alt="Product image" class="img-fluid" >
+                        </div>
+                        <span class="position-absolute tm-new-badge" style="text-align: center">{{ product.product_price }}€</span>
+                        <h2 class="tm-pt-30 tm-color-primary tm-post-title" style="text-align: center">{{ product.product_name }}</h2>
+                    </a>
+                    <p class="tm-pt-30" style="text-align: center">
+                        {{ product.materials }}
+                    </p>
+
+                    <hr>
+     </article>
+        </div>
+        </div>
+     <footer style="background: #ffb3cb;height: 40px; text-align: center; color: black; padding-top: 5px;position: relative">
+       © 2020 Copyright: Pandora.com
+    </footer>
+{% endblock %}

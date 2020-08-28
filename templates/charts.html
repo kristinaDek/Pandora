@@ -1,4 +1,5 @@
 {% include 'base.html' %}
+{% load static %}
 {% block content %}
 <!DOCTYPE html>
 <html lang="en">
@@ -18,8 +19,8 @@
         ]);
 
         var options = {
-          title: 'PANDORA Sales',
-          hAxis: {title: 'Year',  titleTextStyle: {color: '#808080'}},
+          title: 'PANDORA Sales', titleTextStyle: {color: '#048c8c'},
+          hAxis: {title: 'Year',  titleTextStyle: {color: '#048c8c'}},
           vAxis: {minValue: 0}
         };
 
@@ -27,9 +28,83 @@
         chart.draw(data, options);
       }
     </script>
+    <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="/resources/demos/style.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script>
+  $( function() {
+    $( "#progressbar" ).progressbar({
+      value: 66.66,
+        backgroundColor: "#048c8c",
+    });
+  } );
+  </script>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="/resources/demos/style.css">
+  <style>
+    .toggler { width: 500px; height: 200px; position: relative; }
+    #button { padding: .5em 1em; text-decoration: none; }
+    #effect { width: 240px; height: 170px; padding: 0.4em; position: relative; background: #fff; }
+    #effect h3 { margin: 0; padding: 0.4em; text-align: center; }
+  </style>
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script>
+  $( function() {
+    var state = true;
+    $( "#button" ).on( "click", function() {
+      if ( state ) {
+        $( "#effect" ).animate({
+          backgroundColor: "#048c8c",
+          color: "#fff",
+          width: 500
+        }, 1000 );
+      } else {
+        $( "#effect" ).animate({
+          backgroundColor: "#fff",
+          color: "#000",
+          width: 240
+        }, 1000 );
+      }
+      state = !state;
+    });
+  } );
+  </script>
   </head>
   <body>
-    <div id="chart_div" style="width: 100%; height: 500px;"></div>
+    <p style="text-align: center"><img src="{% static 'images/logo.jpg' %}"></p>
+    <div id="chart_div" style="width: 100%; height: 500px; "></div>
+    <hr>
+    <div class="container">
+        <h1 style="color: #048c8c"> Percents of the 2020 that have passed </h1>
+    <div id="progressbar"></div>
+        </div>
+    <hr>
+    <div class="container">
+        <div class="row">
+             <div class="col">
+            <div class="toggler">
+            <div id="effect" class="ui-widget-content ui-corner-all" style="height: 200px;margin-bottom: 100px">
+                <h3 class="ui-widget-header ui-corner-all">Pandora sales</h3>
+            <p>
+              Shop special sale prices on the beautiful Pandora jewelry you love. Take advantage of our Last Chance products today while they last.
+            </p>
+
+                </div>
+                </div>
+
+                 <button id="button" class="ui-state-default ui-corner-all" style="margin-top: 1em; background-color: #048c8c;color: white;">Toggle Effect</button>
+             </div>
+
+            </div>
+        </div>
   </body>
 {% endblock %}
 </html>
+
+
+

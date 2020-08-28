@@ -87,7 +87,7 @@
                         </script>
                     {% endblock %}
                     {% if store.online_exclusive == True %}
-                        <td><a class = "btn btn-sm btn-info" href = "#" style="background-color: #e0c0e1;border-color: #e0c0e1">Order</a></td>
+                        <td><a class = "btn btn-sm btn-info" href = "{% url 'create_order' store.id %}" style="background-color: #e0c0e1;border-color: #e0c0e1">Order</a></td>
                     {% else %}
                         <td></td>
                 {% endif %}

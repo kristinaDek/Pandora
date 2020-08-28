@@ -43,7 +43,7 @@ class AvailabilityModel(models.Model):
 
 class OrderModel(models.Model):
     user = models.ForeignKey(django.contrib.auth.get_user_model(), null=True, on_delete=models.CASCADE)
-    product = models.ForeignKey(ProductModel, null=False, on_delete=models.CASCADE)
+    product = models.ForeignKey(ProductModel, null=True, on_delete=models.CASCADE)
     available = models.ForeignKey(AvailabilityModel, null=True, on_delete=models.CASCADE)
     address = models.CharField(max_length=255, blank=False)
     order_type = models.IntegerField(choices=ORDER_CHOICES)

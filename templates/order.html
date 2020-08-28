@@ -1,0 +1,37 @@
+{% include 'base.html' %}
+{% load static %}
+{% block content %}
+        <form action="{% url 'profile' %}" style="right: 5em">
+            <input type="submit" class="btn search_btn" value="Proceeed to your orders" style="border-color: #ffb3cb;margin-top: 1em; margin-left: 950px" />
+        </form>
+    <h1 style="color: #ffb3cb; text-align: center;margin-top: 2em; margin-bottom:1em"> Adding some details to your order </h1>
+    <form action="" method="POST" class="res_form" style="margin-left: 350px">
+    {% csrf_token %}
+{#        <p>User: {{ form.user }}</p>#}
+        <div class="row" style="width: 100%">
+            <div class="col">
+
+        <p>Choosen store: {{ avb.store_name }}  </p>
+        <p>Choosen product: {{ product.product_name }}  </p>
+        <img src="{{ product.product_image.url }}" alt="Product image" class="img-fluid">
+            </div>
+            <div class="col">
+{#                {{ form }}#}
+        <p>Enter address: {{ form.address }}</p>
+        <p>Choose type of order: {{ form.order_type }}</p>
+        <p>Enter amount: {{ form.amount }}</p>
+        <p style="color: #ffb3cb; font-weight: bold"> Total price: {{ total_price }}</p>
+                <input type="submit" name="Submit" class="btn btn-info search_btn" style="border-color: #ffb3cb;margin-top: 1em; margin-left: 250px">
+
+            </div>
+
+    </div>
+
+    </form>
+
+
+<footer style="background: #ffb3cb;height: 40px; text-align: center; color: black; padding-top: 5px;position: relative">
+   © 2020 Copyright: Pandora.com
+</footer>
+
+{% endblock %}

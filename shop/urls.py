@@ -18,7 +18,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import RedirectView
-from .views import login_user, homepage, register, logout_user,user_profile, products, product_page, view_as_pdf, charts
+from .views import login_user, homepage, register, logout_user,user_profile, products, product_page, view_as_pdf, charts, create_order,delete_order, update_order
 from knox import views as knox_views
 from .views import LoginAPI
 from django.urls import path
@@ -38,6 +38,9 @@ urlpatterns = [
     path('products/<int:pk>/', product_page, name='product-details'),
     path('pdf_view/<int:pk>', view_as_pdf, name="view_as_pdf"),
     path('charts/', charts, name="charts"),
+    path('create_order/<int:pk>/', create_order, name="create_order"),
+    path('update_order/<int:pk>/', update_order, name="update_order"),
+    path('delete_order/<int:pk>/', delete_order, name="delete_order"),
     # path('api/login/', LoginAPI.as_view(), name='login'),
     # path('api/logout/', knox_views.LogoutView.as_view(), name='logout'),
     # path('api/logoutall/', knox_views.LogoutAllView.as_view(), name='logoutall'),

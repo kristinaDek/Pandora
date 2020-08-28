@@ -23,7 +23,13 @@
 
         <div class="form_div" style="margin-left: 18em;margin-right: 18em">
         <form method="GET">
-            {{my_filter.form}}
+             <p>Product: {{ my_filter.form.product }} Address: {{ my_filter.form.address }}</p>
+             <p>Before date: {{ my_filter.form.date_of_order_bef }}    After date: {{ my_filter.form.date_of_order_pass }}</p>
+             <p>Bigger than price: {{ my_filter.form.total_price_1 }}   Less than price: {{ my_filter.form.total_price_2 }}</p>
+
+{#            <p>Choose type of order: {{ my_filter.form.order_type }}</p>#}
+{#            <p>Enter amount: {{ my_filter.form.amount }}</p>#}
+
             <button type="submit" id="submit" class="btn search_btn" style="margin-left: 25em;color: white;background-color: #048c8c;border-color: white">Search</button>
         </form>
         </div>
@@ -66,9 +72,9 @@
                             });
                         </script>
                     {% endblock %}
-                        <td><a class = "btn btn-sm btn-info" href="#">Edit</a></td>
-					    <td><a class = "btn btn-sm btn-info" href="#">Delete</a></td>
-                        <td><a class = "btn btn-sm btn-outline-dark pdf" href="{% url 'view_as_pdf' ord.id %}">Get pdf</a></td>
+                        <td><a class = "btn btn-sm btn-info" href="{% url 'update_order' ord.id %}" style="background-color: #048c8c; border-color: #048c8c">Edit</a></td>
+					    <td><a class = "btn btn-sm btn-info" href="{% url 'delete_order' ord.id %}" style="background-color: #048c8c; border-color: #048c8c">Delete</a></td>
+                        <td><a class = "btn btn-sm btn-outline-dark pdf" href="{% url 'view_as_pdf' ord.id %}" style="color: #048c8c;">Get pdf</a></td>
 				    </tr>
 
                 {% endfor %}

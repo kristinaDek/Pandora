@@ -31,7 +31,7 @@ from rest_framework.response import Response
 from knox.models import AuthToken
 from .serializer import UserSerializer, RegisterSerializer
 from django.contrib.auth import login
-from .forms import UserRegistrationForm
+from .forms import UserRegistrationForm,CreateOrderForm
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 from knox.views import LoginView as KnoxLoginView
 from .models import ProductImageModel,ProductModel,OrderModel, AvailabilityModel
@@ -134,10 +134,11 @@ def user_profile(request):
 
     orders = OrderModel.objects.filter(user=request.user)
     my_filter = OrderFilter(request.GET, queryset=orders)
+    # my_filter2 = OrderFilter2(request.GET, queryset=orders)
     orders = my_filter.qs
     for res in orders:
         product = OrderModel.objects.get(id=res.id).product
-        res.product = ProductModel.objects.get(id=product.id)
+        # res.product = ProductModel.objects.get(id=product.id)
         res.price_of_order = res.amount * product.product_price
         total_days = res.date_of_order + timedelta(days=7)
         if res.date_of_order == date.today():
@@ -150,7 +151,7 @@ def user_profile(request):
             res.status = f'Unknown {res.date_of_order.strftime("%d.%m.%Y.")}'
     current_user = request.user
     context = {"orders": orders, "values": curr_vals, "currencies": currencies,
-               "current_user": current_user,"my_filter": my_filter}
+               "current_user": current_user,"my_filter":my_filter}
     # context = {}
     # ,"my_filter": my_filter
     return render(request, 'profile.html', context)
@@ -262,3 +263,157 @@ def view_as_pdf(request, pk):
 def charts(request):
 
     return render(request, 'charts.html')
+
+
+@login_required(login_url='login')
+def create_order(request, pk):
+    avb = AvailabilityModel.objects.get(id=pk)
+    product = ProductModel.objects.get(id=avb.product.id)
+    obj = OrderModel(product=product,available=avb)
+    obj.available = avb
+    obj.product = product
+    obj.amount = 1
+    total_price = product.product_price
+    form = CreateOrderForm(instance=obj)
+    if request.method == "POST":
+        form = CreateOrderForm(request.POST)
+        if form.is_valid():
+            obj = form.save(commit=False)
+            obj.date_of_order = date.today()
+            if obj.date_of_order < date.today():
+                messages.info(request, "Order date can not be in the past")
+                return redirect('create-order', pk=pk)
+            # orders = OrderModel.objects.filter(accommodation=obj.accommodation)
+            # for res in reservations:
+            if (obj.amount > avb.number_of_available_items):
+                messages.info(request, "The amount you chose is not available in our online store.")
+                return redirect('create_order', pk=pk)
+            # avb.number_of_available_items = avb.number_of_available_items - obj.amount
+            obj.user = request.user
+            obj.date_of_order = date.today()
+            obj.price_of_order = obj.amount * product.product_price
+            total_price = obj.price_of_order
+            if obj.price_of_order <= 0:
+                messages.info(request, "There is no order!")
+                return redirect('create_order', pk=pk)
+            obj.available = avb
+            obj.product = product
+            obj.save()
+            # return redirect('create_order',pk = pk)
+            messages.success(request, "Your order is done!")
+        else:
+            messages.info(request, "You have to fill all the fields to make an order."
+                                   )
+
+    context = {"form": form, "obj":obj, "avb": avb, "product":product, 'total_price':total_price}
+    return render(request, 'order.html', context)
+
+
+@login_required(login_url='login')
+def update_order2(request, pk):
+    order = OrderModel.objects.get(id=pk)
+    avb = AvailabilityModel.objects.get(id=order.available.id)
+    product = ProductModel.objects.get(id=order.product.id)
+    obj = OrderModel()
+    obj.product = product
+    obj.available = avb
+    form = CreateOrderForm(instance=order)
+    total_price = product.product_price
+
+    if request.method == "POST":
+        form = CreateOrderForm(request.POST, instance=order)
+        if form.is_valid():
+            obj = form.save(commit=False)
+            if obj.amount < 1:
+                messages.info(request, "Amount must be positive number.")
+                return redirect('update_order', pk=order.id)
+            # if str.__len__(obj.address) <= 5:
+            #     messages.info(request, "Address must be valid!")
+            #     return redirect('update_order', pk=order.id)
+            obj.date_of_order = date.today()
+
+            if (obj.amount > avb.number_of_available_items):
+                messages.info(request, "The amount you chose is not available in our online store.")
+                return redirect('update_order', pk=order.id)
+            obj.user = request.user
+            obj.date_of_order = date.today()
+            obj.price_of_order = obj.amount * product.product_price
+            total_price = obj.price_of_order
+            if obj.price_of_order <= 0:
+                messages.info(request, "There is no order!")
+                return redirect('update_order', pk=order.id)
+            obj.available = avb
+            obj.product = product
+            obj.save()
+            # return redirect('create_order',pk = pk)
+            messages.success(request, "Your order is updated!")
+        else:
+            messages.info(request, "You have to fill all the fields to update an order."
+                          )
+
+        context = {"form": form, "obj": obj, "avb": avb, "product": product, 'total_price': total_price}
+        return render(request, 'order.html', context)
+
+@login_required(login_url='login')
+def update_order(request, pk):
+    order = OrderModel.objects.get(id=pk)
+    available = AvailabilityModel.objects.get(id=order.available.id)
+    product = ProductModel.objects.get(id=order.product.id)
+    obj = OrderModel()
+    obj.product = product
+    obj.available = available
+    total_price = order.amount * product.product_price
+    form = CreateOrderForm(instance=order,
+                                 initial={'Amount': order.amount,
+                                          'Address': order.address,
+                                          'Order type': order.order_type})
+
+    if request.method == "POST":
+        form = CreateOrderForm(request.POST, instance=order)
+        if form.is_valid():
+            obj = form.save(commit=False)
+            if obj.amount < 1:
+                messages.info(request, "Amount must be positive number.")
+                return redirect('update_order', pk=order.id)
+            if obj.address == "":
+                messages.info(request, "Address must be valid!")
+                return redirect('update_order', pk=order.id)
+            obj.date_of_order = date.today()
+
+            if (obj.amount > available.number_of_available_items):
+                messages.info(request, "The amount you chose is not available in our online store.")
+                return redirect('update_order', pk=order.id)
+
+            obj.user = request.user
+            obj.date_of_order = date.today()
+            obj.price_of_order = obj.amount * product.product_price
+            total_price = obj.price_of_order
+            if obj.price_of_order <= 0:
+                messages.info(request, "There is no order!")
+                return redirect('update_order', pk=order.id)
+            obj.available = available
+            obj.product = product
+            obj.save()
+            # return redirect('create_order',pk = pk)
+            messages.success(request, "Your order is updated!")
+            return redirect('homepage')
+        else:
+            messages.info(request, "You have to fill all the fields to make a reservation."
+                                   " Date format is DD.MM.YYYY.")
+
+    context = {"form": form, "product": product, "available": available, 'total_price': total_price}
+    return render(request, 'order.html', context)
+
+@login_required(login_url='login')
+def delete_order(request, pk):
+    order = OrderModel.objects.get(id=pk)
+    product = ProductModel.objects.get(id=order.product.id)
+    total_days = order.date_of_order + timedelta(days=7)
+    message = f"Are you sure you want to remove order {order} from the list?" if total_days > date.today() else f"Are you sure you want to cancel order {order}?"
+    if request.method == "POST":
+        order.delete()
+        message = "Order is deleted."
+        # context = {"message": message,}
+        return redirect('homepage')
+    context = {"message": message, "order": order, "product":product}
+    return render(request,'delete_order.html', context)
