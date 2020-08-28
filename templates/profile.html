@@ -1,7 +1,7 @@
 {% include 'base.html' %}
 {% load static %}
 {% block content %}
-{% endblock %}
+
 
 
 <!DOCTYPE html>
@@ -24,7 +24,7 @@
         <div class="form_div" style="margin-left: 18em;margin-right: 18em">
         <form method="GET">
             {{my_filter.form}}
-            <button type="submit" id="submit" class="btn search_btn" style="position: relative;color: white;background-color: #048c8c;border-color: white">Search</button>
+            <button type="submit" id="submit" class="btn search_btn" style="margin-left: 25em;color: white;background-color: #048c8c;border-color: white">Search</button>
         </form>
         </div>
     <br>
@@ -240,6 +240,7 @@
 {#        }#}
 {##}
 {#    </script>#}
+{% endblock %}
 </body>
 </html>
 

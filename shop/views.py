@@ -156,7 +156,7 @@ def user_profile(request):
     return render(request, 'profile.html', context)
 
 def homepage(request):
-    # key = 'LQBJ8397PZR8L3UK'
+    key = 'LQBJ8397PZR8L3UK'
     # london_data = requests.get(
     #     "http://api.openweathermap.org/data/2.5/weather?q={0}&appid={1}&units={2}".format('London',
     #                                                                                       '1cf038b92a748c3271a76ede2fcd7f0c',
@@ -172,20 +172,20 @@ def homepage(request):
     #
     # #urllib.request.urlopen(f'https://api.thingspeak.com/update?api_key={key}&field1={london_temp}')
     #
-    # belgrade_data = requests.get(
-    #     "http://api.openweathermap.org/data/2.5/weather?q={0}&appid={1}&units={2}".format('Belgrade',
-    #                                                                                       '1cf038b92a748c3271a76ede2fcd7f0c',
-    #                                                                                       'metric'))
-    #
-    # belgrade_json = belgrade_data.json()
-    # belgrade_temp = belgrade_json['main']['temp']
-    # belgrade_temp_min = belgrade_json['main']['temp_min']
-    # belgrade_temp_max = belgrade_json['main']['temp_max']
-    # belgrade_humidity = belgrade_json['main']['humidity']
-    # belgrade = {'temp': belgrade_temp, 'temp_min': belgrade_temp_min, 'temp_max': belgrade_temp_max,
-    #             'humidity': belgrade_humidity}
-    # #urllib.request.urlopen(f'https://api.thingspeak.com/update?api_key={key}&field2={belgrade_temp}')
-    #
+    belgrade_data = requests.get(
+        "http://api.openweathermap.org/data/2.5/weather?q={0}&appid={1}&units={2}".format('Belgrade',
+                                                                                          '1cf038b92a748c3271a76ede2fcd7f0c',
+                                                                                          'metric'))
+
+    belgrade_json = belgrade_data.json()
+    belgrade_temp = belgrade_json['main']['temp']
+    belgrade_temp_min = belgrade_json['main']['temp_min']
+    belgrade_temp_max = belgrade_json['main']['temp_max']
+    belgrade_humidity = belgrade_json['main']['humidity']
+    belgrade = {'temp': belgrade_temp, 'temp_min': belgrade_temp_min, 'temp_max': belgrade_temp_max,
+                'humidity': belgrade_humidity}
+    #urllib.request.urlopen(f'https://api.thingspeak.com/update?api_key={key}&field2={belgrade_temp}')
+
     # paris_data = requests.get(
     #     "http://api.openweathermap.org/data/2.5/weather?q={0}&appid={1}&units={2}".format('Paris',
     #                                                                                       '1cf038b92a748c3271a76ede2fcd7f0c',
@@ -199,8 +199,8 @@ def homepage(request):
     # paris = {'temp': paris_temp, 'temp_min': paris_temp_min, 'temp_max': paris_temp_max, 'humidity': paris_humidity}
     # urllib.request.urlopen(f'https://api.thingspeak.com/update?api_key={key}&field3={paris_temp}')
 
-    # context = {}
-    return render(request, 'home.html')
+    context = {'belgrade': belgrade}
+    return render(request, 'home.html',context)
 
 def products(request):
     products = ProductModel.objects.all()
@@ -258,3 +258,7 @@ def view_as_pdf(request, pk):
                "total_days": total_days}
     pdf = render_to_pdf('pdf-template.html', context)
     return HttpResponse(pdf, content_type='application/pdf')
+
+def charts(request):
+
+    return render(request, 'charts.html')

@@ -10,19 +10,19 @@
     </ol>
     <div class="carousel-inner">
         <div class="carousel-item" id="pic1">
-        <img src="{% static 'images/pandora-banner.jpg' %}" class="d-block w-100" alt="..." id="pic1">
+        <img src="{% static 'images/carus2.jpg' %}" class="d-block w-100" alt="..." id="pic1">
         <div class="carousel-caption d-none d-md-block">
             <h1 style="color: white">New collection summer/fall 2020.</h1>
         </div>
         </div>
         <div class="carousel-item active" id="pic1">
-        <img src="{% static 'images/pan2.jpg'%}" class="d-block w-100" alt="...">
+        <img src="{% static 'images/pan4.jpg'%}" class="d-block w-100" alt="...">
         <div class="carousel-caption d-none d-md-block">
-            <h1 style="color: white">Use our online shop to buy our products </h1>
+            <h1 style="color: white">Use our <a href="{% url 'products' %}" style="color: #048c8c; text-decoration: none">online shop</a> to buy our products </h1>
         </div>
         </div>
         <div class="carousel-item" id="pic1">
-        <img src="{% static 'images/pan1.jpg' %}" class="d-block w-100" alt="...">
+        <img src="{% static 'images/carus.jpg' %}" class="d-block w-100" alt="...">
         <div class="carousel-caption d-none d-md-block">
             <h1 style="color: white">Make surprise with Pandora!</h1>
         </div>
@@ -40,11 +40,8 @@
    </div>
 </div>
 
-    <h1 class="main_heading" id="titl1"><img src="{% static 'images/big.png' %}"> Safest shopping place in 2020. ! </h1>
-
-
-
-    <p style="text-align: right;margin-right: 50px"><i class="fas fa-sun"></i> Click <a href="https://thingspeak.com/channels/1091019"> here</a> to see more  </p>
+    <h1 class="main_heading" id="titl1" style="margin-bottom: 1em;"><img src="{% static 'images/big.png' %}"> Safest shopping place in 2020. ! </h1>
+    <h2 id="titl1" style="color:black;text-align: right;margin-right: 180px;margin-top: 0"><i class="fas fa-chart-area"></i> Click <a href="{% url 'charts' %}" style="color:#e0c0e1"> here</a> to see more  </h2>
 <script>
   $( function() {
     $( "#accordion" ).accordion();
@@ -52,48 +49,69 @@
   </script>
 
 
-<div class="acc_div">
-<div id="accordion">
-  <h3>Learn about the history of Belgrade</h3>
-  <div>
-    <p>
-    One of the oldest cities in Europe and the only one built on the confluence of two rivers, Belgrade is the city that
-    never sleeps and the symbol of great nightlife. The capital of Serbia, Belgrade, is known as “the city that never sleeps”.
-    Floating clubs on its rivers have become synonyms for great parties and neverending fun, and Skadarlija, the bohemian street,
-    for a place where music and singing can be heard until dawn. The first signs of life on the territory of the largest city in Serbia are dating from 4,800
-    BC when the prehistoric town of Vinca started existing. The Celts were the ones who founded Belgrade in 3rd century BC, after what it became a Roman settlement called Singidunum.
-    The original Slovene name of the city, “Beligrad”, which means “white city”, was first used in 878, and the city became the capital of Serbia in 1405.
-    In 2005, the publicity discovered a big secret – an underground war bunker that was built in 1971 for the needs of the Yugoslav National Army, called Karas.
-    The bunker was designed to shelter 70 of the highest politicians and officers in case of a war condition. It is placed 150 meters under the ground and it’s capable to sustain a nuclear attack.
 
-    </p>
+    <div class="container">
+  <div class="row">
+    <div class="col">
+      <div class="weather_card">
+        <p class="weather_p">
+        <h1 style="color: #e0c0e1"> Belgrade </h1>
+         <i class="fas fa-info-circle"></i> Current temperature: {{ belgrade.temp }}<br>
+         <i class="fas fa-temperature-low"></i> Min temperature: {{ belgrade.temp_min }}<br>
+         <i class="fas fa-temperature-high"></i> Max temperature: {{ belgrade.temp_max }}<br>
+         <i class="fas fa-tint"></i> Humidity: {{ belgrade.humidity }}<br>
+        </p>
+        </div>
+    </div>
   </div>
-  <h3>Learn about the history of London</h3>
+<div class="acc_div" style="background-color: white">
+<div id="accordion" style="background-color: white">
+  <h3 style="background-color: #e0c0e1;">Stores in Belgrade</h3>
+  <div>
+    <p><i class="fas fa-store"></i>
+        Bulevar Kralja Aleksandra 48, Beograd <br>
+        <i class="fas fa-phone-alt"></i>011 3220696
+        <a href="https://www.pandorashop.rs/rs/radnje/15-bul-kralja-aleksandra" style="color: #ffb3cb">for more info</a>
+    </p>
+      <p><i class="fas fa-store"></i>
+        TC BIG FASHION Višnjička 84, Beograd <br>
+        <i class="fas fa-phone-alt"></i>011 3220696
+        <a href="https://www.pandorashop.rs/rs/radnje/19-tc-big-fashion" style="color: #ffb3cb">for more info</a>
+        </p>
+       <p><i class="fas fa-store"></i>
+        TC UŠĆE Bulevar Mihajla Pupina 4, Beograd <br>
+        <i class="fas fa-phone-alt"></i>011 2693525
+        <a href="https://www.pandorashop.rs/rs/radnje/7-tc-usce" style="color: #ffb3cb">for more info</a>
+        </p>
+       <p><i class="fas fa-store"></i>
+        TC TC DELTA CITY Jurija Gagarina 16, Beograd <br>
+        <i class="fas fa-phone-alt"></i>011 2203720
+        <a href="https://www.pandorashop.rs/rs/radnje/6-tc-delta-city" style="color: #ffb3cb">for more info</a>
+        </p>
+  </div>
+  <h3 style="background-color: #e0c0e1;">Stores in Novi Sad</h3>
+  <div>
+      <p>
+    <p><i class="fas fa-store"></i>
+        Šoping centar Promenada, Bulevar Oslobođenja 119, Novi Sad <br>
+        <i class="fas fa-phone-alt"></i>021 3822445
+        <a href="https://www.pandorashop.rs/rs/radnje/25-promenada" style="color: #ffb3cb">for more info</a>
+    </p>
+      <p><i class="fas fa-store"></i>
+        MODENE Modene 1-3, Novi Sad <br>
+        <i class="fas fa-phone-alt"></i>021 539339
+        <a href="https://www.pandorashop.rs/rs/radnje/10-modene" style="color: #ffb3cb">for more info</a>
+        </p>
+
+  </div>
+  <h3 style="background-color: #e0c0e1;">Stores in Nis</h3>
   <div>
     <p>
-    London, the capital of England and the United Kingdom, is a 21st-century city with history stretching back to Roman times.
-    At its centre stand the imposing Houses of Parliament, the iconic ‘Big Ben’ clock tower and Westminster Abbey, site of British
-    monarch coronations. Across the Thames River, the London Eye observation wheel provides panoramic views of the South Bank cultural complex,
-    and the entire city. London is situated in southeastern England, lying astride the River Thames some 50 miles (80 km) upstream from its
-    estuary on the North Sea. In satellite photographs the metropolis can be seen to sit compactly in a Green Belt of open land,
-    with its principal ring highway (the M25 motorway) threaded around it at a radius of about 20 miles (30 km) from the city centre.
-    The growth of the built-up area was halted by strict town planning controls in the mid-1950s. Its physical limits more or less correspond
-    to the administrative and statistical boundaries separating the metropolitan county of Greater London from the “home counties” of Kent,
-    Surrey, and Berkshire (in clockwise order) to the south of the river and Buckinghamshire, Hertfordshire, and Essex to the north.
-    </p>
-  </div>
-  <h3>Learn about the history of Paris</h3>
-  <div>
-    <p>
-    Paris, the cosmopolitan capital of France, is one of Europe's largest cities, with 2.2 million people living in the dense,
-    central city and almost 12 million people living in the whole metropolitan area. Located in the north of France on the river Seine,
-    Paris has the well deserved reputation of being the most beautiful and romantic of all cities, brimming with historic associations and
-    remaining vastly influential in the realms of culture, art, fashion, food and design. Dubbed the City of Light (la Ville Lumière) and
-    Capital of Fashion, it is home to the world's finest and most luxurious fashion designers and cosmetics, such as Louis Vuitton, Chanel,
-    Dior, Yves Saint-Laurent, Guerlain, Lancôme, L'Oréal, Clarins, etc. A large part of the city, including the River Seine, is a UNESCO World
-    Heritage Site. The city has the second highest number of Michelin restaurants in the world (after Tokyo) and contains numerous iconic landmarks,
-    such as the world's most visited tourist site the Eiffel Tower, the Arc de Triomphe, the Notre-Dame Cathedral, the Louvre Museum, Moulin Rouge,
-    and Lido, making it the most popular tourist destination in the world with 45 million tourists annually.
+    <p><i class="fas fa-store"></i>
+        FORUM, Obrenovićeva 42, Niš <br>
+        <i class="fas fa-phone-alt"></i>018 250575
+        <a href="https://www.pandorashop.rs/rs/radnje/25-promenada" style="color: #ffb3cb">for more info</a>
+
     </p>
   </div>
 </div>
