@@ -18,6 +18,14 @@ ORDER_CHOICES = [
 ]
 
 class ProductModel(models.Model):
+    PRODUCT_CHOICES = [
+        (1, 'Ring'),
+        (2, 'Earrings'),
+        (3, 'Neklace'),
+        (4, 'Bracelet'),
+        (5, 'Charm'),
+        (6, 'Clip'),
+    ]
     product_name = models.CharField(max_length=255, blank=False)
     product_price = models.DecimalField(decimal_places=2, max_digits=10)
     materials = models.TextField(default="")
@@ -42,6 +50,11 @@ class AvailabilityModel(models.Model):
 
 
 class OrderModel(models.Model):
+    ORDER_CHOICES = [
+        (1, 'Gift'),
+        (2, 'Purchase'),
+
+    ]
     user = models.ForeignKey(django.contrib.auth.get_user_model(), null=True, on_delete=models.CASCADE)
     product = models.ForeignKey(ProductModel, null=True, on_delete=models.CASCADE)
     available = models.ForeignKey(AvailabilityModel, null=True, on_delete=models.CASCADE)

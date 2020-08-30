@@ -309,50 +309,50 @@ def create_order(request, pk):
     return render(request, 'order.html', context)
 
 
-@login_required(login_url='login')
-def update_order2(request, pk):
-    order = OrderModel.objects.get(id=pk)
-    avb = AvailabilityModel.objects.get(id=order.available.id)
-    product = ProductModel.objects.get(id=order.product.id)
-    obj = OrderModel()
-    obj.product = product
-    obj.available = avb
-    form = CreateOrderForm(instance=order)
-    total_price = product.product_price
-
-    if request.method == "POST":
-        form = CreateOrderForm(request.POST, instance=order)
-        if form.is_valid():
-            obj = form.save(commit=False)
-            if obj.amount < 1:
-                messages.info(request, "Amount must be positive number.")
-                return redirect('update_order', pk=order.id)
-            # if str.__len__(obj.address) <= 5:
-            #     messages.info(request, "Address must be valid!")
-            #     return redirect('update_order', pk=order.id)
-            obj.date_of_order = date.today()
-
-            if (obj.amount > avb.number_of_available_items):
-                messages.info(request, "The amount you chose is not available in our online store.")
-                return redirect('update_order', pk=order.id)
-            obj.user = request.user
-            obj.date_of_order = date.today()
-            obj.price_of_order = obj.amount * product.product_price
-            total_price = obj.price_of_order
-            if obj.price_of_order <= 0:
-                messages.info(request, "There is no order!")
-                return redirect('update_order', pk=order.id)
-            obj.available = avb
-            obj.product = product
-            obj.save()
-            # return redirect('create_order',pk = pk)
-            messages.success(request, "Your order is updated!")
-        else:
-            messages.info(request, "You have to fill all the fields to update an order."
-                          )
-
-        context = {"form": form, "obj": obj, "avb": avb, "product": product, 'total_price': total_price}
-        return render(request, 'order.html', context)
+# @login_required(login_url='login')
+# def update_order2(request, pk):
+#     order = OrderModel.objects.get(id=pk)
+#     avb = AvailabilityModel.objects.get(id=order.available.id)
+#     product = ProductModel.objects.get(id=order.product.id)
+#     obj = OrderModel()
+#     obj.product = product
+#     obj.available = avb
+#     form = CreateOrderForm(instance=order)
+#     total_price = product.product_price
+#
+#     if request.method == "POST":
+#         form = CreateOrderForm(request.POST, instance=order)
+#         if form.is_valid():
+#             obj = form.save(commit=False)
+#             if obj.amount < 1:
+#                 messages.info(request, "Amount must be positive number.")
+#                 return redirect('update_order', pk=order.id)
+#             # if str.__len__(obj.address) <= 5:
+#             #     messages.info(request, "Address must be valid!")
+#             #     return redirect('update_order', pk=order.id)
+#             obj.date_of_order = date.today()
+#
+#             if (obj.amount > avb.number_of_available_items):
+#                 messages.info(request, "The amount you chose is not available in our online store.")
+#                 return redirect('update_order', pk=order.id)
+#             obj.user = request.user
+#             obj.date_of_order = date.today()
+#             obj.price_of_order = obj.amount * product.product_price
+#             total_price = obj.price_of_order
+#             if obj.price_of_order <= 0:
+#                 messages.info(request, "There is no order!")
+#                 return redirect('update_order', pk=order.id)
+#             obj.available = avb
+#             obj.product = product
+#             obj.save()
+#             # return redirect('create_order',pk = pk)
+#             messages.success(request, "Your order is updated!")
+#         else:
+#             messages.info(request, "You have to fill all the fields to update an order."
+#                           )
+#
+#         context = {"form": form, "obj": obj, "avb": avb, "product": product, 'total_price': total_price}
+#         return render(request, 'order.html', context)
 
 @login_required(login_url='login')
 def update_order(request, pk):

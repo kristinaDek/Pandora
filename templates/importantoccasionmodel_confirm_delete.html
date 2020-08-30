@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+    <a href="{% url 'api:index' %}" style="color: #048c8c; margin-left: 100px" >Go back to your occasions</a>
+    <h1 style="color: #048c8c;text-align: center">Confirmation</h1>
+    <p>
+        <form method="post" >{% csrf_token %}
+        <p style="text-align: center">Are you sure you want to delete "{{ object.occasion_name }}"?</p>
+        <p style="text-align: center"><input type="submit" value="Confirm" class=" btn search_btn" style="background-color: #048c8c; border-color: #048c8c; color: white"></p>
+        </form>
+    </p>
+{% endblock %}

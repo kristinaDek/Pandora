@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div class="row">
+
+        <div class="col-4">
+            <nav id="sidebar">
+
+              <div class="new-note">
+                <a href="{% url 'api:create' %}" class="new-note btn btn-default">+ New Occasion</a>
+              </div>
+
+              {% if occasions %}
+              <ul id="notes">
+                  {% for occasion in occasions %}
+                    <li data-url="{% url 'api:update' occasion.pk %}">
+                        <div class="note-title">{{ occasion.occasion_name }}</div>
+                        <a href="{% url 'api:update' occasion.pk %}" class="new-note btn btn-default">+ Update Occasion</a>
+                        <a href="{% url 'api:delete' occasion.pk %}" class="new-note btn btn-default">+ Delete Occasion</a>
+                        <div class="note-body">{{ occasion.body | safe }}</div>
+                    </li>
+                  {% endfor %}
+              </ul>
+              {% else %}
+                <p id="nonotes">No occasions are available.</p>
+              {% endif %}
+            </nav>
+        </div>
+
+        <div class="col-8">
+
+        {% if form.errors %}
+            {% for error in form.non_field_errors %}
+                <div class="alert alert-danger" role="alert">
+                    <strong>{{ error|escape }}</strong>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        {% if object %}
+        <form action="{% url 'api:update' object.id %}" method="post" accept-charset="utf-8">
+        {% else %}
+        <form action="{% url 'api:create' %}" method="post" accept-charset="utf-8">
+        {% endif %}
+        {{ form.media }}
+
+            {% csrf_token %}
+            {% for field in form %}
+            <p>
+                {% if field.errors %}
+                <div class="alert alert-danger" role="alert">
+                    {{ field.errors }}
+                </div>
+                {% endif %}
+                {{ field.name }}{{ field }}
+            </p>
+            {% endfor %}
+            <input type="hidden" name="next" value="{{ next }}" />
+
+        {% if object %}
+            <input class="btn btn-primary" type="submit" value="Update Occasion"/>
+        {% else %}
+            <input class="btn btn-primary" type="submit" value="Create Occasion"/>
+        {% endif %}
+        </form>
+
+    {% if importantoccasionmodel %}
+      <form action="{% url 'api:delete' importantoccasionmodel.pk %}" method="post" id="delete-note-form">
+            {% csrf_token %}
+            <a class="btn btn-danger" id="delete-note">
+          <span class="fas fa-trash fa-inverse" aria-hidden="true"> </span>
+        </a>
+      </form>
+    {% endif %}
+
+        </div>
+    </div>
+
+{% endblock %}

@@ -83,7 +83,11 @@
 		</div>
 	</div>
 <hr>
-{#   <h1 class="main_heading"> Make your own wish list</h1>#}
+   <h1 class="main_heading"> Add your important occasions: </h1>
+     <form action="{% url 'api:index' %}">
+         <p style="text-align: center"><button class="btn search_btn" type="submit" style="border-color: #048c8c;background-color: #048c8c;color: white; ">Click</button></p>
+
+      </form>
 {#<div class="container">#}
 {##}
 {#		<div id="task-container">#}
@@ -91,7 +95,8 @@
 {#				<form id="form">#}
 {#					<div class="flex-wrapper">#}
 {#						<div style="flex: 6">#}
-{#							<input id="title" class="form-control" type="text" name="title" placeholder="Add product to you wish">#}
+{#							<input id="title" class="form-control" type="text" name="title" placeholder="Add product to your occasion">#}
+{##}
 {#						</div>#}
 {#						<div style="flex: 1">#}
 {#							<input id="submit" class="btn" type="submit">#}
@@ -132,16 +137,16 @@
 {#        function buildList() {#}
 {#            var wrapper = document.getElementById('list-wrapper')#}
 {#            wrapper.innerHTML = ''#}
-{#            var url = 'http://127.0.0.1:8000/api/wish-list/'#}
+{#            var url = 'http://127.0.0.1:8000/pandorApi/occasion-list/'#}
 {#            fetch(url)#}
 {#            .then((resp) => resp.json())#}
 {#            .then(function (data) {#}
 {#                console.log('Data:', data)#}
 {#                var list = data#}
 {#                for (var i in list){#}
-{#                    var name = `<span class = "title">${list[i].wish_name}</span>`#}
+{#                    var name = `<span class = "title">${list[i].occasion_name}</span>`#}
 {#                    if(list[i].completed){#}
-{#                        name = `<strike class = "title">${list[i].wish_name}</strike>`#}
+{#                        name = `<strike class = "title">${list[i].occasion_name}</strike>`#}
 {#                    }#}
 {#                var item = `#}
 {#                    <div id = "data-row-${i}" class = "task-wrapper flex-wrapper">#}
@@ -190,19 +195,19 @@
 {#        form.addEventListener('submit', function(e){#}
 {#            e.preventDefault()#}
 {#            console.log('Form submitted')#}
-{#            var url = 'http://127.0.0.1:8000/api/wish-create/'#}
+{#            var url = 'http://127.0.0.1:8000/pandorApi/occasion-create/'#}
 {#            if(activeItem != null){#}
-{#                url = `http://127.0.0.1:8000/api/wish-update/${activeItem.id}/`#}
+{#                url = `http://127.0.0.1:8000/pandorApi/occasion-update/${activeItem.id}/`#}
 {#                activeItem = null#}
 {#            }#}
-{#            var wish_name = document.getElementById('title').value#}
+{#            var occasion_name = document.getElementById('title').value#}
 {#            fetch(url, {#}
 {#                method: 'POST',#}
 {#                headers:{#}
 {#                    'Content-type':'application/json',#}
 {#                    'X-CSRFToken': csrftoken,#}
 {#                },#}
-{#                body: JSON.stringify({'wish_name':wish_name})#}
+{#                body: JSON.stringify({'occasion_name':occasion_name})#}
 {#            }#}
 {#            ).then(function(response){#}
 {#                buildList()#}
@@ -213,12 +218,12 @@
 {#        function editItem(item){#}
 {#            console.log('Item edited: ', item)#}
 {#            activeItem = item#}
-{#            document.getElementById('title').value = activeItem.wish_name#}
+{#            document.getElementById('title').value = activeItem.occasion_name#}
 {#        }#}
 {##}
 {#        function deleteItem(item){#}
 {#            console.log('Item deleted')#}
-{#            fetch(`http://127.0.0.1:8000/api/wish-delete/${item.id}/`, {#}
+{#            fetch(`http://127.0.0.1:8000/pandrorApi/occasion-delete/${item.id}/`, {#}
 {#                method : 'DELETE',#}
 {#                headers: {#}
 {#                    'Content-type':'application/json',#}
@@ -233,13 +238,13 @@
 {#            console.log('Strike clicked')#}
 {##}
 {#            item.completed = !item.completed#}
-{#            fetch(`http://127.0.0.1:8000/api/wish-update/${item.id}/`, {#}
+{#            fetch(`http://127.0.0.1:8000/pandorApi/occasion-update/${item.id}/`, {#}
 {#                method : 'POST',#}
 {#                headers: {#}
 {#                    'Content-type':'application/json',#}
 {#                    'X-CSRFToken': csrftoken,#}
 {#                },#}
-{#                body: JSON.stringify({'wish_name':item.wish_name,'completed':item.completed})#}
+{#                body: JSON.stringify({'occasion_name':item.occasion_name,'completed':item.completed})#}
 {#            }).then((response) => {#}
 {#                buildList()#}
 {#            })#}

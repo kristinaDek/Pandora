@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1 style="color: #048c8c;text-align: center">Confirmation</h1>
+    <p>
+        <form method="post" >{% csrf_token %}
+        <p style="text-align: center">Are you sure you want to delete "{{ object.occasion_name }}"?</p>
+        <input type="submit" value="Confirm" style="text-align: center">
+        </form>
+    </p>
+{% endblock %}

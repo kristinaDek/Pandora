@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'shop.apps.ShopConfig',
+    'pandorApi.apps.PandorapiConfig',
     'rest_framework',
     'knox',
     'crispy_forms',
@@ -59,7 +60,7 @@ ROOT_URLCONF = 'pandora.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')]
+        'DIRS': [os.path.join(BASE_DIR, 'templates'),os.path.join(BASE_DIR, '..', 'templates')]
         ,
         'APP_DIRS': True,
         'OPTIONS': {

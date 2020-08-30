@@ -51,23 +51,24 @@
 
 
     <div class="container">
-  <div class="row">
-    <div class="col">
-      <div class="weather_card">
-        <p class="weather_p">
-        <h1 style="color: #e0c0e1"> Belgrade </h1>
-         <i class="fas fa-info-circle"></i> Current temperature: {{ belgrade.temp }}<br>
-         <i class="fas fa-temperature-low"></i> Min temperature: {{ belgrade.temp_min }}<br>
-         <i class="fas fa-temperature-high"></i> Max temperature: {{ belgrade.temp_max }}<br>
-         <i class="fas fa-tint"></i> Humidity: {{ belgrade.humidity }}<br>
-        </p>
-        </div>
-    </div>
-  </div>
+{#  <div class="row">#}
+{#    <div class="col">#}
+{#      <div class="weather_card">#}
+{#        <p class="weather_p">#}
+{#        <h1 style="color: #e0c0e1"> Belgrade </h1>#}
+{#         <i class="fas fa-info-circle"></i> Current temperature: {{ belgrade.temp }}<br>#}
+{#         <i class="fas fa-temperature-low"></i> Min temperature: {{ belgrade.temp_min }}<br>#}
+{#         <i class="fas fa-temperature-high"></i> Max temperature: {{ belgrade.temp_max }}<br>#}
+{#         <i class="fas fa-tint"></i> Humidity: {{ belgrade.humidity }}<br>#}
+{#        </p>#}
+{#        </div>#}
+{#    </div>#}
+{#  </div>#}
 <div class="acc_div" style="background-color: white">
 <div id="accordion" style="background-color: white">
   <h3 style="background-color: #e0c0e1;">Stores in Belgrade</h3>
-  <div>
+  <div><div class="row">
+    <div class="col">
     <p><i class="fas fa-store"></i>
         Bulevar Kralja Aleksandra 48, Beograd <br>
         <i class="fas fa-phone-alt"></i>011 3220696
@@ -88,6 +89,19 @@
         <i class="fas fa-phone-alt"></i>011 2203720
         <a href="https://www.pandorashop.rs/rs/radnje/6-tc-delta-city" style="color: #ffb3cb">for more info</a>
         </p>
+        </div>
+       <div class="col">
+      <div class="weather_card">
+        <p class="weather_p">
+        <h1 style="color: #e0c0e1"> Belgrade </h1>
+         <i class="fas fa-info-circle"></i> Current temperature: {{ belgrade.temp }}<br>
+         <i class="fas fa-temperature-low"></i> Min temperature: {{ belgrade.temp_min }}<br>
+         <i class="fas fa-temperature-high"></i> Max temperature: {{ belgrade.temp_max }}<br>
+         <i class="fas fa-tint"></i> Humidity: {{ belgrade.humidity }}<br>
+        </p>
+        </div>
+       </div>
+    </div>
   </div>
   <h3 style="background-color: #e0c0e1;">Stores in Novi Sad</h3>
   <div>
