@@ -18,7 +18,7 @@
         <div class="carousel-item active" id="pic1">
         <img src="{% static 'images/pan4.jpg'%}" class="d-block w-100" alt="...">
         <div class="carousel-caption d-none d-md-block">
-            <h1 style="color: white">Use our <a href="{% url 'products' %}" style="color: #048c8c; text-decoration: none">online shop</a> to buy our products </h1>
+            <h1 style="color: white">Use our <a href="{% url 'products' %}" style="color: #ffb3cb; text-decoration: none;font-weight: bold;">online shop</a> to buy our products </h1>
         </div>
         </div>
         <div class="carousel-item" id="pic1">
@@ -40,8 +40,8 @@
    </div>
 </div>
 
-    <h1 class="main_heading" id="titl1" style="margin-bottom: 1em;"><img src="{% static 'images/big.png' %}"> Safest shopping place in 2020. ! </h1>
-    <h2 id="titl1" style="color:black;text-align: right;margin-right: 180px;margin-top: 0"><i class="fas fa-chart-area"></i> Click <a href="{% url 'charts' %}" style="color:#e0c0e1"> here</a> to see more  </h2>
+    <h1 class="main_heading" id="titl1" style="color:#ffb3cb;margin-bottom: 1em;"><img src="{% static 'images/big.png' %}"> Safest shopping place in 2020. ! </h1>
+    <h2 id="titl1" style="color:black;text-align: right;margin-right: 180px;margin-top: 0"><i class="fas fa-chart-area"></i> Click <a href="{% url 'charts' %}" style="color:#ffb3cb"> here</a> to see more  </h2>
 <script>
   $( function() {
     $( "#accordion" ).accordion();
@@ -51,22 +51,10 @@
 
 
     <div class="container">
-{#  <div class="row">#}
-{#    <div class="col">#}
-{#      <div class="weather_card">#}
-{#        <p class="weather_p">#}
-{#        <h1 style="color: #e0c0e1"> Belgrade </h1>#}
-{#         <i class="fas fa-info-circle"></i> Current temperature: {{ belgrade.temp }}<br>#}
-{#         <i class="fas fa-temperature-low"></i> Min temperature: {{ belgrade.temp_min }}<br>#}
-{#         <i class="fas fa-temperature-high"></i> Max temperature: {{ belgrade.temp_max }}<br>#}
-{#         <i class="fas fa-tint"></i> Humidity: {{ belgrade.humidity }}<br>#}
-{#        </p>#}
-{#        </div>#}
-{#    </div>#}
-{#  </div>#}
+
 <div class="acc_div" style="background-color: white">
 <div id="accordion" style="background-color: white">
-  <h3 style="background-color: #e0c0e1;">Stores in Belgrade</h3>
+  <h3 style="background-color: #ffb3cb;">Stores in Belgrade</h3>
   <div><div class="row">
     <div class="col">
     <p><i class="fas fa-store"></i>
@@ -93,7 +81,7 @@
        <div class="col">
       <div class="weather_card">
         <p class="weather_p">
-        <h1 style="color: #e0c0e1"> Belgrade </h1>
+        <h1 style="color: #ffb3cb"> Belgrade </h1>
          <i class="fas fa-info-circle"></i> Current temperature: {{ belgrade.temp }}<br>
          <i class="fas fa-temperature-low"></i> Min temperature: {{ belgrade.temp_min }}<br>
          <i class="fas fa-temperature-high"></i> Max temperature: {{ belgrade.temp_max }}<br>
@@ -103,8 +91,10 @@
        </div>
     </div>
   </div>
-  <h3 style="background-color: #e0c0e1;">Stores in Novi Sad</h3>
+  <h3 style="background-color: #ffb3cb;">Stores in Novi Sad</h3>
   <div>
+      <div><div class="row">
+    <div class="col">
       <p>
     <p><i class="fas fa-store"></i>
         Šoping centar Promenada, Bulevar Oslobođenja 119, Novi Sad <br>
@@ -116,21 +106,52 @@
         <i class="fas fa-phone-alt"></i>021 539339
         <a href="https://www.pandorashop.rs/rs/radnje/10-modene" style="color: #ffb3cb">for more info</a>
         </p>
-
+    </div>
+     <div class="col">
+      <div class="weather_card">
+        <p class="weather_p">
+        <h1 style="color: #ffb3cb"> Novi Sad </h1>
+         <i class="fas fa-info-circle"></i> Current temperature: {{ novi_sad.temp }}<br>
+         <i class="fas fa-temperature-low"></i> Min temperature: {{ novi_sad.temp_min }}<br>
+         <i class="fas fa-temperature-high"></i> Max temperature: {{ novi_sad.temp_max }}<br>
+         <i class="fas fa-tint"></i> Humidity: {{ novi_sad.humidity }}<br>
+        </p>
+        </div>
+       </div>
+    </div>
   </div>
-  <h3 style="background-color: #e0c0e1;">Stores in Nis</h3>
+  </div>
+  <h3 style="background-color: #ffb3cb;">Stores in Nis</h3>
   <div>
     <p>
-    <p><i class="fas fa-store"></i>
-        FORUM, Obrenovićeva 42, Niš <br>
-        <i class="fas fa-phone-alt"></i>018 250575
-        <a href="https://www.pandorashop.rs/rs/radnje/25-promenada" style="color: #ffb3cb">for more info</a>
+        <div class="row">
+        <div class="col">
+        <p><i class="fas fa-store"></i>
+            FORUM, Obrenovićeva 42, Niš <br>
+            <i class="fas fa-phone-alt"></i>018 250575
+            <a href="https://www.pandorashop.rs/rs/radnje/25-promenada" style="color: #ffb3cb">for more info</a>
 
-    </p>
+        </p>
+  </div>
+     <div class="col">
+      <div class="weather_card">
+        <p class="weather_p">
+        <h1 style="color: #ffb3cb"> Nis </h1>
+         <i class="fas fa-info-circle"></i> Current temperature: {{ nis.temp }}<br>
+         <i class="fas fa-temperature-low"></i> Min temperature: {{ nis.temp_min }}<br>
+         <i class="fas fa-temperature-high"></i> Max temperature: {{  nis.temp_max }}<br>
+         <i class="fas fa-tint"></i> Humidity: {{ nis.humidity }}<br>
+        </p>
+        </div>
+     </div>
+    </div>
   </div>
 </div>
 </div>
+    </div>
+
+
 {% endblock %}
-{#<footer style="background: 	#fde7e9;height: 40px; text-align: center; color: black; padding-top: 5px;position: relative">#}
-{#       © 2020 Copyright: Pandora#}
-{#</footer>#}
+<footer style="background: 	#ffb3cb;height: 40px; text-align: center; color: black; padding-top: 5px;position: relative; width: 100%">
+       © 2020 Copyright: Pandora
+</footer>

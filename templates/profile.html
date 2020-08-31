@@ -18,7 +18,7 @@
 <body>
 <br>
 <h1 class="main_heading"> <img src="{% static 'images/logo.jpg'%}"> </h1>
-<h1 class="main_heading"style="margin-bottom: 1em"> {{ current_user.first_name }} {{ current_user.last_name }}'s orders </h1>
+<h1 class="main_heading" style="margin-bottom: 1em; color: #ffb3cb"> {{ current_user.first_name }} {{ current_user.last_name }}'s orders </h1>
 
 
         <div class="form_div" style="margin-left: 18em;margin-right: 18em">
@@ -30,7 +30,7 @@
 {#            <p>Choose type of order: {{ my_filter.form.order_type }}</p>#}
 {#            <p>Enter amount: {{ my_filter.form.amount }}</p>#}
 
-            <button type="submit" id="submit" class="btn search_btn" style="margin-left: 25em;color: white;background-color: #048c8c;border-color: white">Search</button>
+            <button type="submit" id="submit" class="btn search_btn" style="margin-left: 25em;color: white;background-color: #ffb3cb;border-color: white">Search</button>
         </form>
         </div>
     <br>
@@ -38,7 +38,7 @@
 		<div class="card card-body">
 
 			<table class="table table-sm">
-				<tr>
+				<tr style="color: #ffb3cb">
                     <th>Status</th>
 					<th>Product</th>
 					<th>Amount </th>
@@ -72,9 +72,9 @@
                             });
                         </script>
                     {% endblock %}
-                        <td><a class = "btn btn-sm btn-info" href="{% url 'update_order' ord.id %}" style="background-color: #048c8c; border-color: #048c8c">Edit</a></td>
-					    <td><a class = "btn btn-sm btn-info" href="{% url 'delete_order' ord.id %}" style="background-color: #048c8c; border-color: #048c8c">Delete</a></td>
-                        <td><a class = "btn btn-sm btn-outline-dark pdf" href="{% url 'view_as_pdf' ord.id %}" style="color: #048c8c;">Get pdf</a></td>
+                        <td><a class = "btn btn-sm btn-info" href="{% url 'update_order' ord.id %}" style="background-color: #ffb3cb; border-color: #ffb3cb">Edit</a></td>
+					    <td><a class = "btn btn-sm btn-info" href="{% url 'delete_order' ord.id %}" style="background-color: #ffb3cb; border-color: #ffb3cb">Delete</a></td>
+                        <td><a class = "btn btn-sm btn-outline-dark pdf" href="{% url 'view_as_pdf' ord.id %}" style="color: #ffb3cb;">Get pdf</a></td>
 				    </tr>
 
                 {% endfor %}
@@ -83,175 +83,18 @@
 		</div>
 	</div>
 <hr>
-   <h1 class="main_heading"> Add your important occasions: </h1>
+   <h1 class="main_heading" style="color: #ffb3cb"> Add your important occasions: </h1>
      <form action="{% url 'api:index' %}">
-         <p style="text-align: center"><button class="btn search_btn" type="submit" style="border-color: #048c8c;background-color: #048c8c;color: white; ">Click</button></p>
+         <p style="text-align: center"><button class="btn search_btn" type="submit" style="border-color: #ffb3cb;background-color: #ffb3cb;color: white; ">Add</button></p>
 
       </form>
-{#<div class="container">#}
-{##}
-{#		<div id="task-container">#}
-{#			<div id="form-wrapper">#}
-{#				<form id="form">#}
-{#					<div class="flex-wrapper">#}
-{#						<div style="flex: 6">#}
-{#							<input id="title" class="form-control" type="text" name="title" placeholder="Add product to your occasion">#}
-{##}
-{#						</div>#}
-{#						<div style="flex: 1">#}
-{#							<input id="submit" class="btn" type="submit">#}
-{#						</div>#}
-{#					</div>#}
-{#				</form>#}
-{#			</div>#}
-{##}
-{#			<div id="list-wrapper">#}
-{#            </div>#}
-{#		</div>#}
-{##}
-{#	</div>#}
-   <footer>
-       © 2020 Copyright: Pandora.com
-    </footer>
 
-{#    <script type="text/javascript">#}
-{#        function getCookie(name) {#}
-{#            var cookieValue = null;#}
-{#            if (document.cookie && document.cookie !== '') {#}
-{#                var cookies = document.cookie.split(';');#}
-{#                for (var i = 0; i < cookies.length; i++) {#}
-{#                    var cookie = cookies[i].trim();#}
-{#                    if (cookie.substring(0, name.length + 1) === (name + '=')) {#}
-{#                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));#}
-{#                        break;#}
-{#                    }#}
-{#                }#}
-{#            }#}
-{#            return cookieValue;#}
-{#        }#}
-{##}
-{#        var csrftoken = getCookie('csrftoken');#}
-{#        var activeItem = null#}
-{#        buildList()#}
-{##}
-{#        function buildList() {#}
-{#            var wrapper = document.getElementById('list-wrapper')#}
-{#            wrapper.innerHTML = ''#}
-{#            var url = 'http://127.0.0.1:8000/pandorApi/occasion-list/'#}
-{#            fetch(url)#}
-{#            .then((resp) => resp.json())#}
-{#            .then(function (data) {#}
-{#                console.log('Data:', data)#}
-{#                var list = data#}
-{#                for (var i in list){#}
-{#                    var name = `<span class = "title">${list[i].occasion_name}</span>`#}
-{#                    if(list[i].completed){#}
-{#                        name = `<strike class = "title">${list[i].occasion_name}</strike>`#}
-{#                    }#}
-{#                var item = `#}
-{#                    <div id = "data-row-${i}" class = "task-wrapper flex-wrapper">#}
-{#                        <div style="flex:7">#}
-{#                            ${name}#}
-{#                        </div>#}
-{#                        <div style="flex:1">#}
-{#                            <button class = "btn btn-sm btn-outline-info edit">Edit</button>#}
-{#                        </div>#}
-{#                        <div style="flex:1">#}
-{#                            <button class = "btn btn-sm btn-outline-dark delete">-</button>#}
-{#                        </div>#}
-{#                    </div>#}
-{#                `#}
-{#                wrapper.innerHTML += item#}
-{##}
-{#            }#}
-{#               for (var i in list){#}
-{#                    var editBtn = document.getElementsByClassName('edit')[i]#}
-{#                    var deleteBtn = document.getElementsByClassName('delete')[i]#}
-{#                    var strikeBtn = document.getElementsByClassName('title')[i]#}
-{##}
-{#                    editBtn.addEventListener('click',(function (item) {#}
-{#                        return function () {#}
-{#                            editItem(item)#}
-{#                        }#}
-{#                })(list[i]))#}
-{#                   deleteBtn.addEventListener('click',(function(item){#}
-{#                       return function () {#}
-{#                            deleteItem(item)#}
-{#                       }#}
-{#                   })(list[i]))#}
-{#                   strikeBtn.addEventListener('click',(function(item){#}
-{#                       return function () {#}
-{#                            strikeUnstrike(item)#}
-{#                       }#}
-{#                   })(list[i]))#}
-{#               }#}
-{##}
-{#            })#}
-{##}
-{##}
-{#        }#}
-{##}
-{#        var form = document.getElementById('form-wrapper')#}
-{#        form.addEventListener('submit', function(e){#}
-{#            e.preventDefault()#}
-{#            console.log('Form submitted')#}
-{#            var url = 'http://127.0.0.1:8000/pandorApi/occasion-create/'#}
-{#            if(activeItem != null){#}
-{#                url = `http://127.0.0.1:8000/pandorApi/occasion-update/${activeItem.id}/`#}
-{#                activeItem = null#}
-{#            }#}
-{#            var occasion_name = document.getElementById('title').value#}
-{#            fetch(url, {#}
-{#                method: 'POST',#}
-{#                headers:{#}
-{#                    'Content-type':'application/json',#}
-{#                    'X-CSRFToken': csrftoken,#}
-{#                },#}
-{#                body: JSON.stringify({'occasion_name':occasion_name})#}
-{#            }#}
-{#            ).then(function(response){#}
-{#                buildList()#}
-{#                document.getElementById('form').reset()#}
-{#            })#}
-{#        })#}
-{##}
-{#        function editItem(item){#}
-{#            console.log('Item edited: ', item)#}
-{#            activeItem = item#}
-{#            document.getElementById('title').value = activeItem.occasion_name#}
-{#        }#}
-{##}
-{#        function deleteItem(item){#}
-{#            console.log('Item deleted')#}
-{#            fetch(`http://127.0.0.1:8000/pandrorApi/occasion-delete/${item.id}/`, {#}
-{#                method : 'DELETE',#}
-{#                headers: {#}
-{#                    'Content-type':'application/json',#}
-{#                    'X-CSRFToken': csrftoken,#}
-{#                }#}
-{#            }).then((response) => {#}
-{#                buildList()#}
-{#            })#}
-{#        }#}
-{##}
-{#        function strikeUnstrike(item){#}
-{#            console.log('Strike clicked')#}
-{##}
-{#            item.completed = !item.completed#}
-{#            fetch(`http://127.0.0.1:8000/pandorApi/occasion-update/${item.id}/`, {#}
-{#                method : 'POST',#}
-{#                headers: {#}
-{#                    'Content-type':'application/json',#}
-{#                    'X-CSRFToken': csrftoken,#}
-{#                },#}
-{#                body: JSON.stringify({'occasion_name':item.occasion_name,'completed':item.completed})#}
-{#            }).then((response) => {#}
-{#                buildList()#}
-{#            })#}
-{#        }#}
-{##}
-{#    </script>#}
-{% endblock %}
+
+
 </body>
 </html>
+{% endblock %}
 
+<footer style="background: 	#ffb3cb;height: 40px; text-align: center; color: black; padding-top: 5px;position: relative; width: 100%">
+       © 2020 Copyright: Pandora
+</footer>

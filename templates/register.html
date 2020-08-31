@@ -1,6 +1,6 @@
 {% include 'base.html' %}
 {% block content %}
-
+<body>
     <div class="container h-100">
 		<div class="d-flex justify-content-center h-100">
 			<div class="user_card">
@@ -59,15 +59,13 @@
                 {% endfor %}
 				<div class="mt-4">
 					<div class="d-flex justify-content-center links">
-                        	Already have an account? <a href="{% url 'login' %}" class="ml-2">Login</a>
+                        	Already have an account? <a href="{% url 'login' %}" class="ml-2" style="color: #ffb3cb">Login</a>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-    <footer>
-       © 2020 Copyright: MAS.com
-    </footer>
+
 	<script>
 
         const form_fields = document.getElementsByTagName('input');
@@ -83,5 +81,9 @@
 			form_fields[field].className += ' form-control'
 		}
 	</script>
-
+</body>
 {% endblock %}
+
+<footer style="margin-top:10em; background: 	#ffb3cb;height: 40px; text-align: center; color: black; padding-top: 5px;position: relative; width: 100%">
+       © 2020 Copyright: Pandora
+</footer>

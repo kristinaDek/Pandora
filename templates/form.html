@@ -1,5 +1,7 @@
 {% extends "base.html" %}
-
+{% block heading %}
+    <script src="https://kit.fontawesome.com/2b094273ea.js" crossorigin="anonymous"></script>
+{% endblock %}
 {% block content %}
 
     <div class="row">
@@ -8,7 +10,7 @@
             <nav id="sidebar">
 
               <div class="new-note">
-                <a href="{% url 'api:create' %}" class="new-note btn btn-default">+ New Occasion</a>
+                <a href="{% url 'api:create' %}" class="new-note btn btn-default" style="color:#048c8c;">+ New Occasion</a>
               </div>
 
               {% if occasions %}
@@ -17,8 +19,8 @@
                     <li>
 {#                    data-url="{% url 'api:update' occasion.id %}"#}
                         <div class="note-title">{{ occasion.occasion_name }}</div>
-                        <a href="{% url 'api:update' occasion.id %}" class="new-note btn btn-default">+ Update Occasion</a>
-                        <a href="{% url 'api:delete' occasion.id %}" class="new-note btn btn-default">+ Delete Occasion</a>
+                        <a href="{% url 'api:update' occasion.id %}" class="new-note btn btn-default" style="color:#048c8c;"> <i class="icon-edit"></i>Update Occasion</a>
+                        <a href="{% url 'api:delete' occasion.id %}" class="new-note btn btn-default" style="color:#048c8c;">- Delete Occasion</a>
                         <div class="note-body">{{ occasion.body | safe }}</div>
                     </li>
                   {% endfor %}
@@ -60,22 +62,18 @@
             <input type="hidden" name="next" value="{{ next }}" />
 
         {% if object %}
-            <input class="btn btn-primary" type="submit" value="Update Occasion"/>
+            <input class="btn btn-primary" type="submit" value="Update Occasion" style="background-color: #048c8c;border-color: #048c8c" />
         {% else %}
-            <input class="btn btn-primary " type="submit" value="Create Occasion" style="background-color: #048c8c"/>
+            <input class="btn btn-primary " type="submit" value="Create Occasion" style="background-color: #048c8c;border-color: #048c8c" />
         {% endif %}
         </form>
 
-{#    {% if object %}#}
-{#      <form action="{% url 'api:delete' object.id %}" method="post" id="delete-note-form">#}
-{#            {% csrf_token %}#}
-{#            <a class="btn btn-danger" id="delete-note">#}
-{#          <span class="fas fa-trash fa-inverse" aria-hidden="true"> </span>Delete#}
-{#        </a>#}
-{#      </form>#}
-{#    {% endif %}#}
 
         </div>
     </div>
+    </div>
 
 {% endblock %}
+<footer style="background: 	#ffb3cb;height: 40px; text-align: center; color: black; padding-top: 5px;position: relative; width: 100%">
+       © 2020 Copyright: Pandora
+</footer>

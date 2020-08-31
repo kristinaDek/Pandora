@@ -16,7 +16,7 @@ from django.http import HttpResponse
 from django.template.loader import get_template
 from django.views import View
 from xhtml2pdf import pisa
-
+import urllib.request
 
 # from .forms import CreateUserForm
 # from django.contrib.auth.forms import UserCreationForm
@@ -157,25 +157,25 @@ def user_profile(request):
     return render(request, 'profile.html', context)
 
 def homepage(request):
-    key = 'LQBJ8397PZR8L3UK'
-    # london_data = requests.get(
-    #     "http://api.openweathermap.org/data/2.5/weather?q={0}&appid={1}&units={2}".format('London',
-    #                                                                                       '1cf038b92a748c3271a76ede2fcd7f0c',
-    #                                                                                       'metric'))
-    #
-    # london_json = london_data.json()
-    # london_temp = london_json['main']['temp']
-    # london_temp_min = london_json['main']['temp_min']
-    # london_temp_max = london_json['main']['temp_max']
-    # london_humidity = london_json['main']['humidity']
-    # london = {'temp': london_temp, 'temp_min': london_temp_min, 'temp_max': london_temp_max,
-    #           'humidity': london_humidity}
-    #
-    # #urllib.request.urlopen(f'https://api.thingspeak.com/update?api_key={key}&field1={london_temp}')
-    #
+    key = '3537610c7a9346338cdca02d0b4e1047'
+    key = '1cf038b92a748c3271a76ede2fcd7f0c'
+
+
+    novi_sad_data = requests.get(
+        "http://api.openweathermap.org/data/2.5/weather?q={0}&appid={1}&units={2}".format('Novi Sad',
+                                                                                          '3537610c7a9346338cdca02d0b4e1047',
+                                                                                          'metric'))
+    novi_sad_json = novi_sad_data.json()
+    novi_sad_temp = novi_sad_json['main']['temp']
+    novi_sad_temp_min = novi_sad_json['main']['temp_min']
+    novi_sad_temp_max = novi_sad_json['main']['temp_max']
+    novi_sad_humidity = novi_sad_json['main']['humidity']
+    novi_sad = {'temp': novi_sad_temp, 'temp_min': novi_sad_temp_min, 'temp_max': novi_sad_temp_max,
+              'humidity': novi_sad_humidity}
+
     belgrade_data = requests.get(
         "http://api.openweathermap.org/data/2.5/weather?q={0}&appid={1}&units={2}".format('Belgrade',
-                                                                                          '1cf038b92a748c3271a76ede2fcd7f0c',
+                                                                                          '3537610c7a9346338cdca02d0b4e1047',
                                                                                           'metric'))
 
     belgrade_json = belgrade_data.json()
@@ -185,22 +185,21 @@ def homepage(request):
     belgrade_humidity = belgrade_json['main']['humidity']
     belgrade = {'temp': belgrade_temp, 'temp_min': belgrade_temp_min, 'temp_max': belgrade_temp_max,
                 'humidity': belgrade_humidity}
-    #urllib.request.urlopen(f'https://api.thingspeak.com/update?api_key={key}&field2={belgrade_temp}')
 
-    # paris_data = requests.get(
-    #     "http://api.openweathermap.org/data/2.5/weather?q={0}&appid={1}&units={2}".format('Paris',
-    #                                                                                       '1cf038b92a748c3271a76ede2fcd7f0c',
-    #                                                                                       'metric'))
-    #
-    # paris_json = paris_data.json()
-    # paris_temp = paris_json['main']['temp']
-    # paris_temp_min = paris_json['main']['temp_min']
-    # paris_temp_max = paris_json['main']['temp_max']
-    # paris_humidity = paris_json['main']['humidity']
-    # paris = {'temp': paris_temp, 'temp_min': paris_temp_min, 'temp_max': paris_temp_max, 'humidity': paris_humidity}
-    # urllib.request.urlopen(f'https://api.thingspeak.com/update?api_key={key}&field3={paris_temp}')
 
-    context = {'belgrade': belgrade}
+    nis_data = requests.get(
+        "http://api.openweathermap.org/data/2.5/weather?q={0}&appid={1}&units={2}".format('Nis',
+                                                                                          '3537610c7a9346338cdca02d0b4e1047',
+                                                                                          'metric'))
+    nis_json = nis_data.json()
+    nis_temp = nis_json['main']['temp']
+    nis_temp_min = nis_json['main']['temp_min']
+    nis_temp_max = nis_json['main']['temp_max']
+    nis_humidity = nis_json['main']['humidity']
+    nis = {'temp': nis_temp, 'temp_min': nis_temp_min, 'temp_max': nis_temp_max,
+                'humidity': nis_humidity}
+
+    context = {'belgrade': belgrade, 'novi_sad':novi_sad, 'nis':nis}
     return render(request, 'home.html',context)
 
 def products(request):
