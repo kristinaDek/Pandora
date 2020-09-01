@@ -85,8 +85,16 @@ def register(request):
            username = form.cleaned_data.get('username')
            messages.success(request,f"Account created for {username}")
            return redirect('login')
+        else:
+            pass1 = form.cleaned_data.get("password1")
+            pass2 = form.cleaned_data.get("password2")
+            if pass1 != pass2:
+                messages.info(request, "The password is not valid.")
+            else:
+                messages.info(request, "Username is taken.")
     else:
         form = UserRegistrationForm()
+        # messages.info(request, "All fields must be valid.")
     context = {'form': form}
     return render(request, 'register.html', context)
 
